@@ -30,18 +30,18 @@ router.get('/device-types', function(req, res, next)
     connection.query('SELECT * from types', function(err, rows, fields)
     {
         if (err) console.log('Error in Query');
-        console.log('Device types:');
-        rows.forEach(function(val, i, arr)
-        {
-            console.log(val.name);
-        });
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(rows, null, 2));
     });
 });
 router.get('/vendors', function(req, res, next)
 {
-    res.send('Vendors TODO');
+    connection.query('SELECT * from vendors', function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
 });
 router.get("/test-database", function(req, res)
 {
