@@ -66,6 +66,16 @@ router.get('/vendors/:typeId', function(req, res, next)
         res.send(JSON.stringify(rows, null, 2));
     });
 });
+// Get devices
+router.get('/devices', function(req, res, next)
+{
+    connection.query('SELECT * from devices ORDER BY id', function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
 // Get devices with vendor per device type
 router.get('/devices/:typeId', function(req, res, next)
 {
@@ -78,6 +88,16 @@ router.get('/devices/:typeId', function(req, res, next)
 		order by vendors.name
 	`;
     connection.query(query, [req.params.typeId], function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
+// Get services
+router.get('/services', function(req, res, next)
+{
+    connection.query('SELECT * from services ORDER BY id', function(err, rows, fields)
     {
         if (err) console.log('Error in Query');
         res.setHeader('Content-Type', 'application/json');
@@ -101,6 +121,16 @@ router.get('/services/:deviceId', function(req, res, next)
         res.send(JSON.stringify(rows, null, 2));
     });
 });
+// Get protocols
+router.get('/protocols', function(req, res, next)
+{
+    connection.query('SELECT * from protocols ORDER BY id', function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
 // Get protocols per service
 router.get('/protocols/:serviceId', function(req, res, next)
 {
@@ -118,6 +148,16 @@ router.get('/protocols/:serviceId', function(req, res, next)
         res.send(JSON.stringify(rows, null, 2));
     });
 });
+// Get warnings
+router.get('/warnings', function(req, res, next)
+{
+    connection.query('SELECT * from warnings ORDER BY id', function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
 // Get warnings per protocol
 router.get('/warnings/:protocolId', function(req, res, next)
 {
@@ -129,6 +169,16 @@ router.get('/warnings/:protocolId', function(req, res, next)
 		order by warnings.name
 	`;
     connection.query(query, [req.params.protocolId], function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
+// Get recommendations
+router.get('/recommendations', function(req, res, next)
+{
+    connection.query('SELECT * from recommendations ORDER BY id', function(err, rows, fields)
     {
         if (err) console.log('Error in Query');
         res.setHeader('Content-Type', 'application/json');
