@@ -119,7 +119,22 @@ router.get('/protocols/:serviceId', function(req, res, next)
     });
 });
 // Get warnings per protocol
-// TODO
+router.get('/warnings/:protocolId', function(req, res, next)
+{
+    var query = `
+		select warnings.id, warnings.name as title, warnings.description
+		from warnings
+		join protocol_warnings on warnings.id = protocol_warnings.warning
+		where protocol_warnings.protocol = ?
+		order by warnings.name
+	`;
+    connection.query(query, [req.params.protocolId], function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
 
 // Get recommendations per warning
 // TODO
