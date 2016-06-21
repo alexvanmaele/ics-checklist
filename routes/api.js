@@ -135,9 +135,23 @@ router.get('/warnings/:protocolId', function(req, res, next)
         res.send(JSON.stringify(rows, null, 2));
     });
 });
-
 // Get recommendations per warning
-// TODO
+router.get('/recommendations/:warningId', function(req, res, next)
+{
+    var query = `
+		select recommendations.id, recommendations.name as title, recommendations.description
+		from recommendations
+		join warning_recommendations on recommendations.id = warning_recommendations.recommendation
+		where warning_recommendations.warning = ?
+		order by recommendations.name
+	`;
+    connection.query(query, [req.params.warningId], function(err, rows, fields)
+    {
+        if (err) console.log('Error in Query');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows, null, 2));
+    });
+});
 
 /*
 	DEBUG
