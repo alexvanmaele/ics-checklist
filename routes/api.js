@@ -27,7 +27,7 @@ router.get('/', function(req, res, next)
 });
 router.get('/device-types', function(req, res, next)
 {
-    connection.query('SELECT * from types', function(err, rows, fields)
+    connection.query('SELECT * from types ORDER BY id', function(err, rows, fields)
     {
         if (err) console.log('Error in Query');
         res.setHeader('Content-Type', 'application/json');
@@ -36,7 +36,7 @@ router.get('/device-types', function(req, res, next)
 });
 router.get('/vendors', function(req, res, next)
 {
-    connection.query('SELECT * from vendors', function(err, rows, fields)
+    connection.query('SELECT * from vendors ORDER BY id', function(err, rows, fields)
     {
         if (err) console.log('Error in Query');
         res.setHeader('Content-Type', 'application/json');
