@@ -54,7 +54,16 @@ router.get('/vendors/:typeId', function(req, res, next)
 // Get devices
 router.get('/devices', function(req, res, next)
 {
-	sendQueryResults('SELECT * from devices ORDER BY id', null, res);
+	var query = `
+		select devices.id, vendors.name as vendor, series.name as series, devices.name as device, types.name as type
+		from devices
+		join series on series.id = devices.series
+		join vendors on vendors.id = devices.vendor
+		join device_types on device_types.device = devices.id
+		join types on device_types.type = types.id
+		order by vendors.name
+	`;
+	sendQueryResults(query, null, res);
 });
 // Get devices with vendor per device type
 router.get('/devices/:typeId', function(req, res, next)
