@@ -1,6 +1,16 @@
+/*
+	IMPORTS
+*/
 var express = require('express');
 var router = express.Router();
+var app = express();
+var bodyParser = require('body-parser')
 var mysql = require('mysql');
+/*
+	SETUP
+*/
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 var connection = mysql.createConnection(
 {
     host: 'localhost',
@@ -8,9 +18,6 @@ var connection = mysql.createConnection(
     password: 'toor',
     database: 'ics_checklist'
 });
-/*
-	SETUP
-*/
 connection.connect(function(err)
 {
     if (!err)
@@ -142,6 +149,20 @@ router.get('/warnings/:protocolId', function(req, res, next)
 		order by warnings.name
 	`;
 	sendQueryResults(query, [req.params.protocolId], res);
+});
+// Get warnings for list of protocols
+router.post('/warnings/', function(req, res, next)
+{
+	console.log(req.body);
+    /*var query = `
+		select recommendations.id, recommendations.name as title, recommendations.description
+		from recommendations
+		join warning_recommendations on recommendations.id = warning_recommendations.recommendation
+		where warning_recommendations.warning = ?
+		order by recommendations.name
+	`;
+    sendQueryResults(query, [req.params.warningId], res);*/
+    res.send('OK!');
 });
 // Get recommendations
 router.get('/recommendations', function(req, res, next)
