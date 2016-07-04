@@ -10,7 +10,10 @@ var mysql = require('mysql');
 	SETUP
 */
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded(
+{
+    extended: true
+}));
 var connection = mysql.createConnection(
 {
     host: 'localhost',
@@ -45,7 +48,7 @@ router.get('/device-types', function(req, res, next)
 // Get vendors
 router.get('/vendors', function(req, res, next)
 {
-	sendQueryResults('SELECT * from vendors ORDER BY id', null, res);
+    sendQueryResults('SELECT * from vendors ORDER BY id', null, res);
 });
 // Get vendors per device type
 router.get('/vendors/:typeId', function(req, res, next)
@@ -56,12 +59,12 @@ router.get('/vendors/:typeId', function(req, res, next)
 		join vendors on vendors.id = devices.vendor
 		where devices.id in (select dt.device from device_types dt where dt.type = ?)
 	`;
-	sendQueryResults(query, [req.params.typeId], res);
+    sendQueryResults(query, [req.params.typeId], res);
 });
 // Get devices
 router.get('/devices', function(req, res, next)
 {
-	var query = `
+    var query = `
 		select devices.id, vendors.name as vendor, series.name as series, devices.name as device, types.name as type
 		from devices
 		join series on series.id = devices.series
@@ -70,7 +73,7 @@ router.get('/devices', function(req, res, next)
 		join types on device_types.type = types.id
 		order by vendors.name
 	`;
-	sendQueryResults(query, null, res);
+    sendQueryResults(query, null, res);
 });
 // Get devices with vendor per device type
 router.get('/devices/:typeId', function(req, res, next)
@@ -83,12 +86,12 @@ router.get('/devices/:typeId', function(req, res, next)
 		where devices.id in (select dt.device from device_types dt where dt.type = ?)
 		order by vendors.name
 	`;
-	sendQueryResults(query, [req.params.typeId], res);
+    sendQueryResults(query, [req.params.typeId], res);
 });
 // Get services
 router.get('/services', function(req, res, next)
 {
-	sendQueryResults('SELECT * from services ORDER BY id', null, res);
+    sendQueryResults('SELECT * from services ORDER BY id', null, res);
 });
 // Get services per device
 router.get('/services/:deviceId', function(req, res, next)
@@ -100,12 +103,12 @@ router.get('/services/:deviceId', function(req, res, next)
 		where device_services.device = ?
 		order by service
 	`;
-	sendQueryResults(query, [req.params.deviceId], res);
+    sendQueryResults(query, [req.params.deviceId], res);
 });
 // Get protocols
 router.get('/protocols', function(req, res, next)
 {
-	sendQueryResults('SELECT * from protocols ORDER BY id', null, res);
+    sendQueryResults('SELECT * from protocols ORDER BY id', null, res);
 });
 // Get protocols per service
 router.get('/protocols/:serviceId', function(req, res, next)
@@ -117,7 +120,7 @@ router.get('/protocols/:serviceId', function(req, res, next)
 		where service_protocols.service = ?
 		order by protocols.name
 	`;
-	sendQueryResults(query, [req.params.serviceId], res);
+    sendQueryResults(query, [req.params.serviceId], res);
 });
 // Get all services with protocols per device
 router.get('/service-protocols/:deviceId', function(req, res, next)
@@ -131,12 +134,12 @@ router.get('/service-protocols/:deviceId', function(req, res, next)
 		where device_services.device = ?
 		order by service
 	`;
-	sendQueryResults(query, [req.params.deviceId], res);
+    sendQueryResults(query, [req.params.deviceId], res);
 });
 // Get warnings
 router.get('/warnings', function(req, res, next)
 {
-	sendQueryResults('SELECT * from warnings ORDER BY id', null, res);
+    sendQueryResults('SELECT * from warnings ORDER BY id', null, res);
 });
 // Get warnings per protocol
 router.get('/warnings/:protocolId', function(req, res, next)
@@ -148,26 +151,12 @@ router.get('/warnings/:protocolId', function(req, res, next)
 		where protocol_warnings.protocol = ?
 		order by warnings.name
 	`;
-	sendQueryResults(query, [req.params.protocolId], res);
-});
-// Get warnings for list of protocols
-router.post('/warnings/', function(req, res, next)
-{
-	console.log(req.body);
-    /*var query = `
-		select recommendations.id, recommendations.name as title, recommendations.description
-		from recommendations
-		join warning_recommendations on recommendations.id = warning_recommendations.recommendation
-		where warning_recommendations.warning = ?
-		order by recommendations.name
-	`;
-    sendQueryResults(query, [req.params.warningId], res);*/
-    res.send('OK!');
+    sendQueryResults(query, [req.params.protocolId], res);
 });
 // Get recommendations
 router.get('/recommendations', function(req, res, next)
 {
-	sendQueryResults('SELECT * from recommendations ORDER BY id', null, res);
+    sendQueryResults('SELECT * from recommendations ORDER BY id', null, res);
 });
 // Get recommendations per warning
 router.get('/recommendations/:warningId', function(req, res, next)
@@ -180,6 +169,35 @@ router.get('/recommendations/:warningId', function(req, res, next)
 		order by recommendations.name
 	`;
     sendQueryResults(query, [req.params.warningId], res);
+});
+// Get warnings and recommendations for list of protocols
+router.post('/warning-recommendations/', function(req, res, next)
+{
+    var query = `
+		select warnings.id, protocol_warnings.protocol, warnings.name, warnings.description, recommendations.description as recommendation
+		from warnings
+		join protocol_warnings on protocol_warnings.warning = warnings.id
+		join warning_recommendations on warning_recommendations.warning = warnings.id
+		join recommendations on recommendations.id = warning_recommendations.recommendation
+		where protocol in 
+	`;
+    var protocolArray = [];
+    try
+    {
+        for (var i = 0; i < req.body.protocols.length; i++)
+        {
+            protocolArray.push(parseInt(req.body.protocols[i]));
+        }
+        var protocolString = "(" + protocolArray.toString() + ")";
+        query = query + protocolString;
+        sendQueryResults(query, null, res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
 });
 /*
 	DEBUG
