@@ -126,7 +126,7 @@ router.get('/protocols/:serviceId', function(req, res, next)
 router.get('/service-protocols/:deviceId', function(req, res, next)
 {
     var query = `
-		select protocols.id, services.name as service, protocols.name as protocol
+		select protocols.id as protocol_id, services.name as service, protocols.name as protocol
 		from services
 		join device_services on services.id = device_services.service
 		join service_protocols on services.id = service_protocols.service
