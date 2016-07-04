@@ -112,6 +112,20 @@ router.get('/protocols/:serviceId', function(req, res, next)
 	`;
 	sendQueryResults(query, [req.params.serviceId], res);
 });
+// Get all services with protocols per device
+router.get('/service-protocols/:deviceId', function(req, res, next)
+{
+    var query = `
+		select protocols.id, services.name as service, protocols.name as protocol
+		from services
+		join device_services on services.id = device_services.service
+		join service_protocols on services.id = service_protocols.service
+		join protocols on protocols.id = service_protocols.protocol
+		where device_services.device = ?
+		order by service
+	`;
+	sendQueryResults(query, [req.params.deviceId], res);
+});
 // Get warnings
 router.get('/warnings', function(req, res, next)
 {
