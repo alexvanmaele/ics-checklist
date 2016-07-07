@@ -34,7 +34,8 @@
                 populateDeviceTypeList();
                 $('#lst_device_types').change(function()
                 {
-                    createVendorListFor(this.value);
+                    var vendors = getVendorsFor(this.value);
+                    populateVendorListWith(vendors);
                 });
             }
         });
@@ -55,7 +56,7 @@
         });
     }
 
-    function createVendorListFor(type)
+    function getVendorsFor(type)
     {
         var vendorsForType = [];
         for (var i = 0; i < devices.length; i++)
@@ -68,5 +69,15 @@
             }
         }
         console.log(vendorsForType);
+        return vendorsForType;
+    }
+
+    function populateVendorListWith(vendors)
+    {
+    	$('#lst_vendors').empty();
+        $.each(vendors, function(key, vendor)
+        {
+            $('#lst_vendors').append('<option value=' + vendor + '>' + vendor + '</option>');
+        });
     }
 })();
