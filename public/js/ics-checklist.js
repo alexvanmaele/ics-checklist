@@ -1,7 +1,8 @@
 (function()
 {
     var urls = {
-        devices: '/api/devices/'
+        'devices': '/api/devices/',
+        'serviceProtocols': '/api/service-protocols/'
     };
     var devices;
     console.log('ics-checklist.js loaded');
@@ -76,6 +77,11 @@
             var selectedSeries = this.value;
             var filteredDevices = getDevicesFor(selectedVendor, selectedType, selectedSeries);
             populateDevicesListWith(filteredDevices);
+            $('#lst_devices').change(); //force update
+        });
+        $('#lst_devices').change(function()
+        {
+        	loadProtocolsForDevice(this.value); //device ID
         });
     }
 
@@ -150,6 +156,20 @@
         $.each(filteredDevices, function(key, device)
         {
             $('#lst_devices').append('<option value="' + device.id + '">' + device.device + '</option>');
+        });
+    }
+
+    function loadProtocolsForDevice(deviceID)
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.serviceProtocols + deviceID,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+            }
         });
     }
 })();
