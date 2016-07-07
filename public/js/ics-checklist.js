@@ -40,15 +40,21 @@
                 });
                 $('#lst_vendors').change(function()
                 {
-                	selectedVendor = this.value;
+                	var selectedVendor = this.value;
                     var selectedType = $('#lst_device_types option:selected').text();
                     var deviceSeries = getDeviceSeriesFor(selectedVendor, selectedType);
                     populateDeviceSeriesListWith(deviceSeries);
+                    $('#lst_device_series').change(); //force update
                 });
                 $('#lst_device_series').change(function()
                 {
-                	//todo
+                	var selectedVendor = $('#lst_vendors option:selected').text();;
+                    var selectedType = $('#lst_device_types option:selected').text();
+                    var selectedSeries = this.value;
+                    var filteredDevices = getDevicesFor(selectedVendor, selectedType, selectedSeries);
+                    populateDevicesListWith(filteredDevices);
                 });
+                
                 $('#lst_device_types').change(); //update immediately after receiving JSON 
             }
         });
@@ -115,6 +121,31 @@
         $.each(deviceSeries, function(key, series)
         {
             $('#lst_device_series').append('<option value="' + series + '">' + series + '</option>');
+        });
+    }
+
+    function getDevicesFor(vendor, type, series)
+    {
+        var filteredDevices = [];
+        for (var i = 0; i < devices.length; i++)
+        {
+            if (devices[i].vendor == vendor &&
+            	devices[i].type == type &&
+            	devices[i].series == series &&
+                filteredDevices.indexOf(devices[i]) == -1)
+            {
+                filteredDevices.push(devices[i]);
+            }
+        }
+        return filteredDevices;
+    }
+
+    function populateDevicesListWith(filteredDevices)
+    {
+    	$('#lst_devices').empty();
+        $.each(filteredDevices, function(key, device)
+        {
+            $('#lst_devices').append('<option value="' + device.id + '">' + device.device + '</option>');
         });
     }
 })();
