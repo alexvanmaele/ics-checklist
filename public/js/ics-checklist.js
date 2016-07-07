@@ -169,12 +169,13 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
-                populateServiceProtocolsListWith(data);
+                var serviceProtocols = getServiceProtocolsListFor(data);
+                generateProtocolSelectionMenuFor(serviceProtocols);
             }
         });
     }
 
-    function populateServiceProtocolsListWith(data)
+    function getServiceProtocolsListFor(data)
     {
         var serviceProtocols = [];
         for (var i = 0; i < data.length; i++)
@@ -191,5 +192,24 @@
             serviceProtocols[service].push(protocol);
         }
         console.log(serviceProtocols);
+        return serviceProtocols;
+    }
+
+    function generateProtocolSelectionMenuFor(serviceProtocols)
+    {
+        $('#sctn_services').html(''); //clear existing html
+        for (var protocolList in serviceProtocols)
+        {
+            if (serviceProtocols.hasOwnProperty(protocolList))
+            {
+                var protocolId = protocolList.toLowerCase().replace(/ /g, '-');
+            	$('#sctn_services').append('<div class="service" id="service-'+protocolId+'"><h3>' + protocolList + '</h3></div>');
+            	for(var i = 0; i < serviceProtocols[protocolList].length; i++)
+            	{
+            		var protocol = serviceProtocols[protocolList][i];
+            		$('#service-'+protocolId).append('<input type="checkbox" class="protocol" value="'+protocol.id+'">' + protocol.name);
+            	}
+            }
+        }
     }
 })();
