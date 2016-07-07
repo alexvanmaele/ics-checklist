@@ -32,29 +32,7 @@
                 console.log(JSON.stringify(data, null, 2));
                 devices = data;
                 populateDeviceTypeList();
-                $('#lst_device_types').change(function()
-                {
-                    var vendors = getVendorsFor(this.value); //for device type
-                    populateVendorListWith(vendors);
-                    $('#lst_vendors').change(); //force update
-                });
-                $('#lst_vendors').change(function()
-                {
-                	var selectedVendor = this.value;
-                    var selectedType = $('#lst_device_types option:selected').text();
-                    var deviceSeries = getDeviceSeriesFor(selectedVendor, selectedType);
-                    populateDeviceSeriesListWith(deviceSeries);
-                    $('#lst_device_series').change(); //force update
-                });
-                $('#lst_device_series').change(function()
-                {
-                	var selectedVendor = $('#lst_vendors option:selected').text();;
-                    var selectedType = $('#lst_device_types option:selected').text();
-                    var selectedSeries = this.value;
-                    var filteredDevices = getDevicesFor(selectedVendor, selectedType, selectedSeries);
-                    populateDevicesListWith(filteredDevices);
-                });
-                
+                bindListEventHandlers();
                 $('#lst_device_types').change(); //update immediately after receiving JSON 
             }
         });
@@ -72,6 +50,32 @@
         $.each(deviceTypes, function(key, type)
         {
             $('#lst_device_types').append('<option value="' + type + '">' + type + '</option>');
+        });
+    }
+
+    function bindListEventHandlers()
+    {
+        $('#lst_device_types').change(function()
+        {
+            var vendors = getVendorsFor(this.value); //for device type
+            populateVendorListWith(vendors);
+            $('#lst_vendors').change(); //force update
+        });
+        $('#lst_vendors').change(function()
+        {
+            var selectedVendor = this.value;
+            var selectedType = $('#lst_device_types option:selected').text();
+            var deviceSeries = getDeviceSeriesFor(selectedVendor, selectedType);
+            populateDeviceSeriesListWith(deviceSeries);
+            $('#lst_device_series').change(); //force update
+        });
+        $('#lst_device_series').change(function()
+        {
+            var selectedVendor = $('#lst_vendors option:selected').text();;
+            var selectedType = $('#lst_device_types option:selected').text();
+            var selectedSeries = this.value;
+            var filteredDevices = getDevicesFor(selectedVendor, selectedType, selectedSeries);
+            populateDevicesListWith(filteredDevices);
         });
     }
 
@@ -106,7 +110,7 @@
         {
             var series = devices[i].series;
             if (devices[i].vendor == vendor &&
-            	devices[i].type == type &&
+                devices[i].type == type &&
                 deviceSeriesForVendor.indexOf(series) == -1)
             {
                 deviceSeriesForVendor.push(series);
@@ -130,8 +134,8 @@
         for (var i = 0; i < devices.length; i++)
         {
             if (devices[i].vendor == vendor &&
-            	devices[i].type == type &&
-            	devices[i].series == series &&
+                devices[i].type == type &&
+                devices[i].series == series &&
                 filteredDevices.indexOf(devices[i]) == -1)
             {
                 filteredDevices.push(devices[i]);
@@ -142,7 +146,7 @@
 
     function populateDevicesListWith(filteredDevices)
     {
-    	$('#lst_devices').empty();
+        $('#lst_devices').empty();
         $.each(filteredDevices, function(key, device)
         {
             $('#lst_devices').append('<option value="' + device.id + '">' + device.device + '</option>');
