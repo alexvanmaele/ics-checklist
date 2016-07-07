@@ -32,22 +32,41 @@
                 console.log(JSON.stringify(data, null, 2));
                 devices = data;
                 populateDeviceTypeList();
+                $('#lst_device_types').change(function()
+                {
+                    createVendorListFor(this.value);
+                });
             }
         });
     }
 
     function populateDeviceTypeList()
     {
-    	$('#lst_device_types').empty();
+        $('#lst_device_types').empty();
         var deviceTypes = [];
-        for(var i = 0; i < devices.length; i++)
+        for (var i = 0; i < devices.length; i++)
         {
-        	var type = devices[i].type;
-        	if(deviceTypes.indexOf(type) == -1) deviceTypes.push(type);
+            var type = devices[i].type;
+            if (deviceTypes.indexOf(type) == -1) deviceTypes.push(type);
         }
         $.each(deviceTypes, function(key, type)
         {
             $('#lst_device_types').append('<option value=' + type + '>' + type + '</option>');
         });
+    }
+
+    function createVendorListFor(type)
+    {
+        var vendorsForType = [];
+        for (var i = 0; i < devices.length; i++)
+        {
+            var vendor = devices[i].vendor;
+            if (devices[i].type == type &&
+                vendorsForType.indexOf(vendor) == -1)
+            {
+                vendorsForType.push(vendor);
+            }
+        }
+        console.log(vendorsForType);
     }
 })();
