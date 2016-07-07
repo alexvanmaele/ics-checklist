@@ -1,9 +1,9 @@
 extends layout
 
+block scripts
+
 block content
 	h1 ICS Checklist
-	p Select a device:
-	select
-		option(value=1) One
-		option(value=2) Two
-		option(value=3) Three
+	p Select a device type:
+	select#lst_device_types
+		option(value=null) Loading device types...
