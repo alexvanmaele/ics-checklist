@@ -81,7 +81,7 @@
         });
         $('#lst_devices').change(function()
         {
-        	loadProtocolsForDevice(this.value); //device ID
+            loadProtocolsForDevice(this.value); //device ID
         });
     }
 
@@ -169,7 +169,27 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
+                populateServiceProtocolsListWith(data);
             }
         });
+    }
+
+    function populateServiceProtocolsListWith(data)
+    {
+        var serviceProtocols = [];
+        for (var i = 0; i < data.length; i++)
+        {
+            var service = data[i].service;
+            if (serviceProtocols.hasOwnProperty(service) == false)
+            {
+                serviceProtocols[service] = [];
+            }
+            var protocol = {
+                'id': data[i].protocol_id,
+                'name': data[i].protocol
+            };
+            serviceProtocols[service].push(protocol);
+        }
+        console.log(serviceProtocols);
     }
 })();
