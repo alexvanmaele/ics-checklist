@@ -36,14 +36,20 @@
                 {
                     var vendors = getVendorsFor(this.value); //for device type
                     populateVendorListWith(vendors);
+                    $('#lst_vendors').change(); //force update
                 });
                 $('#lst_vendors').change(function()
                 {
-                	console.log(this.value);
-                    var deviceSeries = getDeviceSeriesFor(this.value); //for vendor
-                    deviceSeries = deviceSeries.filter(function(e){return e == $('#lst_device_types option:selected').text()}); //filter on type
+                	selectedVendor = this.value;
+                    var selectedType = $('#lst_device_types option:selected').text();
+                    var deviceSeries = getDeviceSeriesFor(selectedVendor, selectedType);
                     populateDeviceSeriesListWith(deviceSeries);
                 });
+                $('#lst_device_series').change(function()
+                {
+                	//todo
+                });
+                $('#lst_device_types').change(); //update immediately after receiving JSON 
             }
         });
     }
@@ -75,44 +81,40 @@
                 vendorsForType.push(vendor);
             }
         }
-        console.log(vendorsForType);
         return vendorsForType;
     }
 
     function populateVendorListWith(vendors)
     {
-    	$('#lst_vendors').empty();
+        $('#lst_vendors').empty();
         $.each(vendors, function(key, vendor)
         {
             $('#lst_vendors').append('<option value="' + vendor + '">' + vendor + '</option>');
         });
     }
 
-    function getDeviceSeriesFor(vendor)
+    function getDeviceSeriesFor(vendor, type)
     {
-    	console.log(vendor);
-    	var deviceSeriesForVendor = [];
-    	for (var i = 0; i < devices.length; i++)
+        var deviceSeriesForVendor = [];
+        for (var i = 0; i < devices.length; i++)
         {
             var series = devices[i].series;
-            console.log('series: ' + series);
-            console.log('device vendor: ' + devices[i].vendor);
             if (devices[i].vendor == vendor &&
+            	devices[i].type == type &&
                 deviceSeriesForVendor.indexOf(series) == -1)
             {
                 deviceSeriesForVendor.push(series);
             }
-            else
-            {
-            	console.log('not found')
-            }
         }
-        console.log(deviceSeriesForVendor);
         return deviceSeriesForVendor;
     }
 
-    function populateDeviceSeriesListWith(devices)
+    function populateDeviceSeriesListWith(deviceSeries)
     {
-    	// todo
+        $('#lst_device_series').empty();
+        $.each(deviceSeries, function(key, series)
+        {
+            $('#lst_device_series').append('<option value="' + series + '">' + series + '</option>');
+        });
     }
 })();
