@@ -34,8 +34,15 @@
                 populateDeviceTypeList();
                 $('#lst_device_types').change(function()
                 {
-                    var vendors = getVendorsFor(this.value);
+                    var vendors = getVendorsFor(this.value); //for device type
                     populateVendorListWith(vendors);
+                });
+                $('#lst_vendors').change(function()
+                {
+                	console.log(this.value);
+                    var deviceSeries = getDeviceSeriesFor(this.value); //for vendor
+                    deviceSeries = deviceSeries.filter(function(e){return e == $('#lst_device_types option:selected').text()}); //filter on type
+                    populateDeviceSeriesListWith(deviceSeries);
                 });
             }
         });
@@ -52,7 +59,7 @@
         }
         $.each(deviceTypes, function(key, type)
         {
-            $('#lst_device_types').append('<option value=' + type + '>' + type + '</option>');
+            $('#lst_device_types').append('<option value="' + type + '">' + type + '</option>');
         });
     }
 
@@ -77,7 +84,35 @@
     	$('#lst_vendors').empty();
         $.each(vendors, function(key, vendor)
         {
-            $('#lst_vendors').append('<option value=' + vendor + '>' + vendor + '</option>');
+            $('#lst_vendors').append('<option value="' + vendor + '">' + vendor + '</option>');
         });
+    }
+
+    function getDeviceSeriesFor(vendor)
+    {
+    	console.log(vendor);
+    	var deviceSeriesForVendor = [];
+    	for (var i = 0; i < devices.length; i++)
+        {
+            var series = devices[i].series;
+            console.log('series: ' + series);
+            console.log('device vendor: ' + devices[i].vendor);
+            if (devices[i].vendor == vendor &&
+                deviceSeriesForVendor.indexOf(series) == -1)
+            {
+                deviceSeriesForVendor.push(series);
+            }
+            else
+            {
+            	console.log('not found')
+            }
+        }
+        console.log(deviceSeriesForVendor);
+        return deviceSeriesForVendor;
+    }
+
+    function populateDeviceSeriesListWith(devices)
+    {
+    	// todo
     }
 })();
