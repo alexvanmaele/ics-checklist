@@ -1,9 +1,10 @@
 extends layout
 
 block scripts
+	script(src=)
 
 block content
-	h1 ICS Checklist
+	h1= title
 	p Select a device type:
 	select#lst_device_types
 		option(value=null) Loading device types...
