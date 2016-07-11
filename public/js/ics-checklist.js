@@ -220,7 +220,7 @@
         $('#btn_submit_protocols').click(function()
         {
         	var selectedProtocols = getSelectedProtocols();
-            if (selectedProtocols > 0)
+            if (selectedProtocols.length > 0)
             {
             	submitProtocols(selectedProtocols);
             }
