@@ -207,7 +207,8 @@
             	for(var i = 0; i < serviceProtocols[protocolList].length; i++)
             	{
             		var protocol = serviceProtocols[protocolList][i];
-            		$('#service-'+protocolId).append('<input type="checkbox" class="protocol" value="'+protocol.id+'">' + protocol.name);
+            		$('#service-'+protocolId).append('<input type="checkbox" id="protocol-'+protocol.id+'" class="protocol" value="'+protocol.id+'">');
+            		$('#protocol-'+protocol.id).after('<label for="protocol-'+protocol.id+'">'+protocol.name+'</label>');
             	}
             }
         }
