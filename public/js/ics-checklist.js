@@ -2,7 +2,8 @@
 {
     var urls = {
         'devices': '/api/devices/',
-        'serviceProtocols': '/api/service-protocols/'
+        'serviceProtocols': '/api/service-protocols/',
+        'warningRecommendations': '/api/warning-recommendations/'
     };
     var devices;
     console.log('ics-checklist.js loaded');
@@ -219,14 +220,14 @@
     {
         $('#btn_submit_protocols').click(function()
         {
-        	var selectedProtocols = getSelectedProtocols();
+            var selectedProtocols = getSelectedProtocols();
             if (selectedProtocols.length > 0)
             {
-            	submitProtocols(selectedProtocols);
+                submitProtocols(selectedProtocols);
             }
             else
             {
-            	alert('Please select at least one used protocol.');
+                alert('Please select at least one used protocol.');
             }
         });
     }
@@ -243,6 +244,28 @@
 
     function submitProtocols(protocols)
     {
-    	//todo
+        console.log('submitting POST data: ');
+        var POSTData = {
+            "protocols": protocols
+        };
+        console.log(POSTData);
+        $.ajax(
+        {
+            type: "POST",
+            url: urls.warningRecommendations,
+            data: JSON.stringify(POSTData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(data);
+            },
+            error: function (err)
+            {
+            	console.log('Error submitting POST data:');
+            	console.log(err);
+            }
+        });
     }
 })();
