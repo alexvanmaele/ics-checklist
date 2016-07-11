@@ -19,6 +19,7 @@
     function start()
     {
         loadDevices();
+        bindSubmitButtonHandler();
     }
 
     function loadDevices()
@@ -203,14 +204,45 @@
             if (serviceProtocols.hasOwnProperty(protocolList))
             {
                 var protocolId = protocolList.toLowerCase().replace(/ /g, '-');
-            	$('#sctn_services').append('<div class="service" id="service-'+protocolId+'"><h3>' + protocolList + '</h3></div>');
-            	for(var i = 0; i < serviceProtocols[protocolList].length; i++)
-            	{
-            		var protocol = serviceProtocols[protocolList][i];
-            		$('#service-'+protocolId).append('<input type="checkbox" id="protocol-'+protocol.id+'" class="protocol" value="'+protocol.id+'">');
-            		$('#protocol-'+protocol.id).after('<label for="protocol-'+protocol.id+'">'+protocol.name+'</label>');
-            	}
+                $('#sctn_services').append('<div class="service" id="service-' + protocolId + '"><h3>' + protocolList + '</h3></div>');
+                for (var i = 0; i < serviceProtocols[protocolList].length; i++)
+                {
+                    var protocol = serviceProtocols[protocolList][i];
+                    $('#service-' + protocolId).append('<input type="checkbox" id="protocol-' + protocol.id + '" class="protocol" value="' + protocol.id + '">');
+                    $('#protocol-' + protocol.id).after('<label for="protocol-' + protocol.id + '">' + protocol.name + '</label>');
+                }
             }
         }
+    }
+
+    function bindSubmitButtonHandler()
+    {
+        $('#btn_submit_protocols').click(function()
+        {
+        	var selectedProtocols = getSelectedProtocols();
+            if (selectedProtocols > 0)
+            {
+            	submitProtocols(selectedProtocols);
+            }
+            else
+            {
+            	alert('Please select at least one used protocol.');
+            }
+        });
+    }
+
+    function getSelectedProtocols()
+    {
+        var usedProtocols = [];
+        $('#sctn_services input:checkbox:checked').each(function()
+        {
+            usedProtocols.push($(this).val());
+        });
+        return usedProtocols;
+    }
+
+    function submitProtocols(protocols)
+    {
+    	//todo
     }
 })();
