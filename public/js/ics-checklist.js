@@ -273,26 +273,46 @@
     function generateWarningRecommendationListFor(warningRecommendations)
     {
         $('#sctn_warning_recommendations').html(''); //clear existing html
-        var uniqueWarnings = [];
+        // 1. Get unique warning names
+        var uniqueWarningNames = [];
         for (var i = 0; i < warningRecommendations.length; i++)
         {
             var warningName = warningRecommendations[i].name;
-            if (uniqueWarnings.indexOf(warningName) == -1) uniqueWarnings.push(warningName);
+            if (uniqueWarningNames.indexOf(warningName) == -1) uniqueWarningNames.push(warningName);
         }
-        for (var i = 0; i < uniqueWarnings.length; i++)
+        // 2. Iterate over unique warning names
+        for (var i = 0; i < uniqueWarningNames.length; i++)
         {
-            var currItem = warningRecommendations[i];
-            $('#sctn_warning_recommendations').append('<h3>' + uniqueWarnings + '</h3>');
-            var currWarnings = warningRecommendations.filter(function(currItem)
+            $('#sctn_warning_recommendations').append('<h2>' + uniqueWarningNames[i] + '</h2>');
+            // 3. Get unique warning descriptions
+            var uniqueWarningDescriptions = [];
+            for (var i = 0; i < warningRecommendations.length; i++)
             {
-                return currItem.name === uniqueWarnings[i];
-            });
-            for (var i = 0; i < currWarnings.length; i++)
+                var warningDescription = warningRecommendations[i].description;
+                if (warningRecommendations[i].name === uniqueWarningNames[i] &&
+                    uniqueWarningDescriptions.indexOf(warningDescription) == -1)
+                {
+                    uniqueWarningDescriptions.push(warningDescription);
+                }
+            }
+            // 4. Iterate over unique warning descriptions
+            for (var i = 0; i < uniqueWarningDescriptions.length; i++)
             {
-                $('#sctn_warning_recommendations').append('<h4>Warning</h4>');
-                $('#sctn_warning_recommendations').append('<p>' + currWarnings[i].description + '</p>');
-                $('#sctn_warning_recommendations').append('<h4>Recommendation</h4>');
-                $('#sctn_warning_recommendations').append('<p>' + currWarnings[i].recommendation + '</p>');
+                $('#sctn_warning_recommendations').append('<h3>Warning</h3>');
+                $('#sctn_warning_recommendations').append('<p>' + uniqueWarningDescriptions[i] + '</p>');
+                // 5. Get warnings for current unique description
+                var currWarnings = warningRecommendations.filter(function(currItem)
+                {
+                    return currItem.description === uniqueWarningDescriptions[i];
+                });
+                // 6. Print recommendations for warning
+                $('#sctn_warning_recommendations').append('<h4>Recommendations</h4>');
+                $('#sctn_warning_recommendations').append('<ul>');
+                for (var i = 0; i < currWarnings.length; i++)
+                {
+                    $('#sctn_warning_recommendations').append('<li>' + currWarnings[i].recommendation + '</li>');
+                }
+                $('#sctn_warning_recommendations').append('</ul>');
             }
         }
     }
