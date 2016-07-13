@@ -273,14 +273,27 @@
     function generateWarningRecommendationListFor(warningRecommendations)
     {
         $('#sctn_warning_recommendations').html(''); //clear existing html
+        var uniqueWarnings = [];
         for (var i = 0; i < warningRecommendations.length; i++)
         {
-        	var currItem = warningRecommendations[i];
-            $('#sctn_warning_recommendations').append('<h3>'+currItem.name+'</h3>');
-            $('#sctn_warning_recommendations').append('<h4>Warning</h4>');
-            $('#sctn_warning_recommendations').append('<p>'+currItem.description+'</p>');
-            $('#sctn_warning_recommendations').append('<h4>Recommendation</h4>');
-            $('#sctn_warning_recommendations').append('<p>'+currItem.recommendation+'</p>');
+            var warningName = warningRecommendations[i].name;
+            if (uniqueWarnings.indexOf(warningName) == -1) uniqueWarnings.push(warningName);
+        }
+        for (var i = 0; i < uniqueWarnings.length; i++)
+        {
+            var currItem = warningRecommendations[i];
+            $('#sctn_warning_recommendations').append('<h3>' + uniqueWarnings + '</h3>');
+            var currWarnings = warningRecommendations.filter(function(currItem)
+            {
+                return currItem.name === uniqueWarnings[i];
+            });
+            for (var i = 0; i < currWarnings.length; i++)
+            {
+                $('#sctn_warning_recommendations').append('<h4>Warning</h4>');
+                $('#sctn_warning_recommendations').append('<p>' + currWarnings[i].description + '</p>');
+                $('#sctn_warning_recommendations').append('<h4>Recommendation</h4>');
+                $('#sctn_warning_recommendations').append('<p>' + currWarnings[i].recommendation + '</p>');
+            }
         }
     }
 })();
