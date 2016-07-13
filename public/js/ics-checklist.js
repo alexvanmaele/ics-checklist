@@ -260,12 +260,27 @@
             {
                 console.log('Got JSON!');
                 console.log(data);
+                generateWarningRecommendationListFor(data);
             },
-            error: function (err)
+            error: function(err)
             {
-            	console.log('Error submitting POST data:');
-            	console.log(err);
+                console.log('Error submitting POST data:');
+                console.log(err);
             }
         });
+    }
+
+    function generateWarningRecommendationListFor(warningRecommendations)
+    {
+        $('#sctn_warning_recommendations').html(''); //clear existing html
+        for (var i = 0; i < warningRecommendations.length; i++)
+        {
+        	var currItem = warningRecommendations[i];
+            $('#sctn_warning_recommendations').append('<h3>'+currItem.name+'</h3>');
+            $('#sctn_warning_recommendations').append('<h4>Warning</h4>');
+            $('#sctn_warning_recommendations').append('<p>'+currItem.description+'</p>');
+            $('#sctn_warning_recommendations').append('<h4>Recommendation</h4>');
+            $('#sctn_warning_recommendations').append('<p>'+currItem.recommendation+'</p>');
+        }
     }
 })();
