@@ -30,6 +30,7 @@
         loadDevices();
         bindSubmitButtonHandler();
         bindNewDeviceButtonHandler();
+        $('#sctn_warning_recommendations').hide(); //TODO: put this in CSS
     }
 
     function loadDevices()
