@@ -6,13 +6,6 @@
         'warningRecommendations': '/api/warning-recommendations/'
     };
     var devices;
-    var currentDevice = {
-        type: "",
-        vendor: "",
-        series: "",
-        name: "",
-        protocols: []
-    };
     var configuredDevices = [];
     console.log('ics-checklist.js loaded');
     if (typeof jQuery == 'undefined')
@@ -220,7 +213,7 @@
                 for (var i = 0; i < serviceProtocols[protocolList].length; i++)
                 {
                     var protocol = serviceProtocols[protocolList][i];
-                    $('#service-' + protocolId).append('<input type="checkbox" id="protocol-' + protocol.id + '" class="protocol" value="' + protocol.id + '">');
+                    $('#service-' + protocolId).append('<input type="checkbox" id="protocol-' + protocol.id + '" class="protocol" value="' + protocol.id + '" name="'+protocol.name+'">');
                     $('#protocol-' + protocol.id).after('<label for="protocol-' + protocol.id + '">' + protocol.name + '</label>');
                 }
             }
@@ -282,8 +275,7 @@
                 console.log(data);
                 generateWarningRecommendationListFor(data);
                 $('#sctn_add_new_device').hide();
-                //TODO
-                configuredDevices.push(currentDevice);
+                configuredDevices.push(getCurrentConfiguredDevice());
                 $('#spn_device_count').html(configuredDevices.length);
             },
             error: function(err)
@@ -339,5 +331,27 @@
                 $('#sctn_warning_recommendations').append('</ul>');
             }
         }
+    }
+
+    function getCurrentConfiguredDevice()
+    {
+        var device = {
+            type: $('#lst_device_types option:selected').text(),
+            vendor: $('#lst_vendors option:selected').text(),
+            series: $('#lst_device_series option:selected').text(),
+            name: $('#lst_devices option:selected').text(),
+            protocols: []
+        };
+        $('#sctn_services input:checkbox:checked').each(function()
+        {
+        	var protocol = {
+        		'id': $(this).val(),
+        		'name': $(this).attr('name')	
+        	};
+        	device.protocols.push(protocol);  
+        });
+        console.log(device);
+
+        return device;
     }
 })();
