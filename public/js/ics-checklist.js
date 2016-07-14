@@ -397,14 +397,15 @@
                 ' <i>(' + device.type + ')</i>';
             $('#sctn_summary').append('<h2>' + fullDeviceName + '</h2>');
             // Protocol warning/rec list
-            for (var k = 0; k < device.protocols.length; k++)
+            var protocolsWithWarnings = device.protocols.filter(function(e)
             {
-                if (device.protocols[k].warnings.length > 0)
-                {
-                    $('#sctn_summary').append('<section class="protocol">');
-                    $('#sctn_summary section:last-child').append('<h3>' + device.protocols[k].name + '</h3>')
-                    $('#sctn_summary').append('</section>');
-                }
+            	return e.warnings.length > 0;
+            });
+            for (var k = 0; k < protocolsWithWarnings.length; k++)
+            {
+                $('#sctn_summary').append('<section class="protocol">');
+                $('#sctn_summary section:last-child').append('<h3>' + protocolsWithWarnings[k].name + '</h3>')
+                $('#sctn_summary').append('</section>');
             }
         }
     }
