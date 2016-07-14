@@ -29,6 +29,10 @@
     {
         loadDevices();
         bindSubmitButtonHandler();
+        $('#btn_add_new_device').click(function()
+        {
+        	$('#sctn_add_new_device').show();
+        });
     }
 
     function loadDevices()
