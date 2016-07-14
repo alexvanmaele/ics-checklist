@@ -32,6 +32,7 @@
         $('#btn_add_new_device').click(function()
         {
         	$('#sctn_add_new_device').show();
+        	$('#sctn_services input:checkbox').prop('checked', false);
         });
     }
 
