@@ -24,7 +24,8 @@
         loadDevices();
         bindSubmitButtonHandler();
         bindNewDeviceButtonHandler();
-        $('#sctn_warning_recommendations').hide(); //TODO: put this in CSS
+        bindGetSummaryButtonHandler();
+        $('#sctn_summary').hide(); //TODO: put this in CSS
     }
 
     function loadDevices()
@@ -246,6 +247,15 @@
         });
     }
 
+    function bindGetSummaryButtonHandler()
+    {
+        $('#btn_get_summary').click(function()
+        {
+            $('#sctn_device_overview').hide();
+            $('#sctn_summary').show();
+        });
+    }
+
     function getSelectedProtocols()
     {
         var usedProtocols = [];
@@ -278,6 +288,7 @@
                 updateDeviceMainAttributes();
                 updateDeviceWarningRecommendations(data);
                 configuredDevices.push(currentDevice);
+                console.log(configuredDevices);
                 $('#sctn_add_new_device').hide();
                 $('#spn_device_count').html(configuredDevices.length);
             },
@@ -291,7 +302,7 @@
 
     function generateWarningRecommendationListFor(warningRecommendations)
     {
-        $('#sctn_warning_recommendations').html(''); //clear existing html
+        $('#sctn_summary').html(''); //clear existing html
         // 1. Get unique warning names
         var uniqueWarningNames = [];
         for (var i = 0; i < warningRecommendations.length; i++)
@@ -302,7 +313,7 @@
         // 2. Iterate over unique warning names
         for (var i = 0; i < uniqueWarningNames.length; i++)
         {
-            $('#sctn_warning_recommendations').append('<h2>' + uniqueWarningNames[i] + '</h2>');
+            $('#sctn_summary').append('<h2>' + uniqueWarningNames[i] + '</h2>');
             // 3. Get unique warning descriptions
             var uniqueWarningDescriptions = [];
             for (var i = 0; i < warningRecommendations.length; i++)
@@ -317,21 +328,21 @@
             // 4. Iterate over unique warning descriptions
             for (var i = 0; i < uniqueWarningDescriptions.length; i++)
             {
-                $('#sctn_warning_recommendations').append('<h3>Warning</h3>');
-                $('#sctn_warning_recommendations').append('<p>' + uniqueWarningDescriptions[i] + '</p>');
+                $('#sctn_summary').append('<h3>Warning</h3>');
+                $('#sctn_summary').append('<p>' + uniqueWarningDescriptions[i] + '</p>');
                 // 5. Get warnings for current unique description
                 var currWarnings = warningRecommendations.filter(function(currItem)
                 {
                     return currItem.description === uniqueWarningDescriptions[i];
                 });
                 // 6. Print recommendations for warning
-                $('#sctn_warning_recommendations').append('<h4>Recommendations</h4>');
-                $('#sctn_warning_recommendations').append('<ul>');
+                $('#sctn_summary').append('<h4>Recommendations</h4>');
+                $('#sctn_summary').append('<ul>');
                 for (var i = 0; i < currWarnings.length; i++)
                 {
-                    $('#sctn_warning_recommendations').append('<li>' + currWarnings[i].recommendation + '</li>');
+                    $('#sctn_summary').append('<li>' + currWarnings[i].recommendation + '</li>');
                 }
-                $('#sctn_warning_recommendations').append('</ul>');
+                $('#sctn_summary').append('</ul>');
             }
         }
     }
@@ -366,29 +377,5 @@
                 return e.protocol == currentDevice.protocols[i].id;
             });
         }
-        console.log('Updated:');
-        console.log(currentDevice);
     }
-
-    /*function getCurrentConfiguredDevice()
-    {
-        var device = {
-            type: $('#lst_device_types option:selected').text(),
-            vendor: $('#lst_vendors option:selected').text(),
-            series: $('#lst_device_series option:selected').text(),
-            name: $('#lst_devices option:selected').text(),
-            protocols: []
-        };
-        $('#sctn_services input:checkbox:checked').each(function()
-        {
-            var protocol = {
-                'id': $(this).val(),
-                'name': $(this).attr('name')
-            };
-            device.protocols.push(protocol);
-        });
-        console.log(device);
-
-        return device;
-    }*/
 })();
