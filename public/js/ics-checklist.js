@@ -6,6 +6,7 @@
         'warningRecommendations': '/api/warning-recommendations/'
     };
     var devices;
+    var currentDevice = {};
     var configuredDevices = [];
     console.log('ics-checklist.js loaded');
     if (typeof jQuery == 'undefined')
@@ -213,7 +214,7 @@
                 for (var i = 0; i < serviceProtocols[protocolList].length; i++)
                 {
                     var protocol = serviceProtocols[protocolList][i];
-                    $('#service-' + protocolId).append('<input type="checkbox" id="protocol-' + protocol.id + '" class="protocol" value="' + protocol.id + '" name="'+protocol.name+'">');
+                    $('#service-' + protocolId).append('<input type="checkbox" id="protocol-' + protocol.id + '" class="protocol" value="' + protocol.id + '" name="' + protocol.name + '">');
                     $('#protocol-' + protocol.id).after('<label for="protocol-' + protocol.id + '">' + protocol.name + '</label>');
                 }
             }
@@ -273,9 +274,11 @@
             {
                 console.log('Got JSON!');
                 console.log(data);
-                generateWarningRecommendationListFor(data);
+                //generateWarningRecommendationListFor(data);
+                updateDeviceMainAttributes();
+                updateDeviceWarningRecommendations(data);
+                configuredDevices.push(currentDevice);
                 $('#sctn_add_new_device').hide();
-                configuredDevices.push(getCurrentConfiguredDevice());
                 $('#spn_device_count').html(configuredDevices.length);
             },
             error: function(err)
@@ -333,7 +336,7 @@
         }
     }
 
-    function getCurrentConfiguredDevice()
+    function updateDeviceMainAttributes()
     {
         var device = {
             type: $('#lst_device_types option:selected').text(),
@@ -344,14 +347,48 @@
         };
         $('#sctn_services input:checkbox:checked').each(function()
         {
-        	var protocol = {
-        		'id': $(this).val(),
-        		'name': $(this).attr('name')	
-        	};
-        	device.protocols.push(protocol);  
+            var protocol = {
+                'id': $(this).val(),
+                'name': $(this).attr('name'),
+                'warnings': []
+            };
+            device.protocols.push(protocol);
+        });
+        currentDevice = device;
+    }
+
+    function updateDeviceWarningRecommendations(warningRecommendations)
+    {
+        for (var i = 0; i < currentDevice.protocols.length; i++)
+        {
+            currentDevice.protocols[i].warnings = warningRecommendations.filter(function(e)
+            {
+                return e.protocol == currentDevice.protocols[i].id;
+            });
+        }
+        console.log('Updated:');
+        console.log(currentDevice);
+    }
+
+    /*function getCurrentConfiguredDevice()
+    {
+        var device = {
+            type: $('#lst_device_types option:selected').text(),
+            vendor: $('#lst_vendors option:selected').text(),
+            series: $('#lst_device_series option:selected').text(),
+            name: $('#lst_devices option:selected').text(),
+            protocols: []
+        };
+        $('#sctn_services input:checkbox:checked').each(function()
+        {
+            var protocol = {
+                'id': $(this).val(),
+                'name': $(this).attr('name')
+            };
+            device.protocols.push(protocol);
         });
         console.log(device);
 
         return device;
-    }
+    }*/
 })();
