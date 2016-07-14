@@ -25,7 +25,9 @@
         bindSubmitButtonHandler();
         bindNewDeviceButtonHandler();
         bindGetSummaryButtonHandler();
-        $('#sctn_summary').hide(); //TODO: put this in CSS
+        //TODO: put this in CSS
+        $('#sctn_summary').hide();
+        $('#sctn_device_overview button').hide();
     }
 
     function loadDevices()
@@ -291,6 +293,9 @@
                 console.log(configuredDevices);
                 $('#sctn_add_new_device').hide();
                 $('#spn_device_count').html(configuredDevices.length);
+                $('#sctn_device_overview button').show();
+                $('#btn_add_new_device').attr('disabled', false);
+                $('#btn_get_summary').attr('disabled', false);
             },
             error: function(err)
             {
