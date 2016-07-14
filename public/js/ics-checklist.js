@@ -254,6 +254,7 @@
         $('#btn_get_summary').click(function()
         {
             $('#sctn_device_overview').hide();
+            $('#sctn_add_new_device').hide();
             $('#sctn_summary').show();
         });
     }
