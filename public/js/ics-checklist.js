@@ -338,53 +338,6 @@
         }
     }
 
-    /*function generateWarningRecommendationListFor(warningRecommendations)
-    {
-        $('#sctn_summary').html(''); //clear existing html
-        // 1. Get unique warning names
-        var uniqueWarningNames = [];
-        for (var i = 0; i < warningRecommendations.length; i++)
-        {
-            var warningName = warningRecommendations[i].name;
-            if (uniqueWarningNames.indexOf(warningName) == -1) uniqueWarningNames.push(warningName);
-        }
-        // 2. Iterate over unique warning names
-        for (var i = 0; i < uniqueWarningNames.length; i++)
-        {
-            $('#sctn_summary').append('<h2>' + uniqueWarningNames[i] + '</h2>');
-            // 3. Get unique warning descriptions
-            var uniqueWarningDescriptions = [];
-            for (var i = 0; i < warningRecommendations.length; i++)
-            {
-                var warningDescription = warningRecommendations[i].description;
-                if (warningRecommendations[i].name === uniqueWarningNames[i] &&
-                    uniqueWarningDescriptions.indexOf(warningDescription) == -1)
-                {
-                    uniqueWarningDescriptions.push(warningDescription);
-                }
-            }
-            // 4. Iterate over unique warning descriptions
-            for (var i = 0; i < uniqueWarningDescriptions.length; i++)
-            {
-                $('#sctn_summary').append('<h3>Warning</h3>');
-                $('#sctn_summary').append('<p>' + uniqueWarningDescriptions[i] + '</p>');
-                // 5. Get warnings for current unique description
-                var currWarnings = warningRecommendations.filter(function(currItem)
-                {
-                    return currItem.description === uniqueWarningDescriptions[i];
-                });
-                // 6. Print recommendations for warning
-                $('#sctn_summary').append('<h4>Recommendations</h4>');
-                $('#sctn_summary').append('<ul>');
-                for (var i = 0; i < currWarnings.length; i++)
-                {
-                    $('#sctn_summary').append('<li>' + currWarnings[i].recommendation + '</li>');
-                }
-                $('#sctn_summary').append('</ul>');
-            }
-        }
-    }*/
-
     function generateSummary()
     {
         for (var i = 0; i < configuredDevices.length; i++)
@@ -406,8 +359,6 @@
                 var protocol = protocolsWithWarnings[k];
                 $('#sctn_summary').append('<section class="protocol">');
                 $('#sctn_summary section:last-child').append('<h3>' + protocol.name + '</h3>');
-
-                //group by warning name
                 var warningsByName = {};
                 for (var w = 0; w < protocol.warnings.length; w++)
                 {
@@ -415,8 +366,6 @@
                     if (!(warning.name in warningsByName)) warningsByName[warning.name] = [];
                     warningsByName[warning.name].push(warning);
                 }
-                //console.log('warningsByName:');
-                //console.log(warningsByName);
                 for (var warning in warningsByName)
                 {
                     $('#sctn_summary section:last-child').append('<h4>' + warning + '</h4>');
