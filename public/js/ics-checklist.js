@@ -7,11 +7,11 @@
     };
     var devices;
     var currentDevice = {
-    	type: "",
-    	vendor: "",
-    	series: "",
-    	name: "",
-    	protocols: []
+        type: "",
+        vendor: "",
+        series: "",
+        name: "",
+        protocols: []
     };
     var configuredDevices = [];
     console.log('ics-checklist.js loaded');
@@ -29,11 +29,7 @@
     {
         loadDevices();
         bindSubmitButtonHandler();
-        $('#btn_add_new_device').click(function()
-        {
-        	$('#sctn_add_new_device').show();
-        	$('#sctn_services input:checkbox').prop('checked', false);
-        });
+        bindNewDeviceButtonHandler();
     }
 
     function loadDevices()
@@ -243,6 +239,15 @@
             {
                 alert('Please select at least one used protocol.');
             }
+        });
+    }
+
+    function bindNewDeviceButtonHandler()
+    {
+        $('#btn_add_new_device').click(function()
+        {
+            $('#sctn_add_new_device').show();
+            $('#sctn_services input:checkbox').prop('checked', false);
         });
     }
 
