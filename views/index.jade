@@ -6,19 +6,25 @@ block scripts
 
 block content
 	h1= title
-	p Select a device type:
-	select#lst_device_types
-		option(value=null) Loading device types...
-	p Select a vendor:
-	select#lst_vendors
-		option(value=null) Select a device type first
-	p Select a device series:
-	select#lst_device_series
-		option(value=null) Select a vendor first
-	p Select a device:
-	select#lst_devices
-		option(value=null) Select a device series first
-	p Select all protocols in use on the device:
-	section#sctn_services
-	button#btn_submit_protocols Submit
-	section#sctn_warning_recommendations
+	section#sctn_device_summary
+		p Devices currently added: 
+			span#spn_device_count 0
+		button#btn_add_new_device Add new device
+		button#btn_get_summary Get summary
+	section#sctn_add_new_device
+		p Select a device type:
+		select#lst_device_types
+			option(value=null) Loading device types...
+		p Select a vendor:
+		select#lst_vendors
+			option(value=null) Select a device type first
+		p Select a device series:
+		select#lst_device_series
+			option(value=null) Select a vendor first
+		p Select a device:
+		select#lst_devices
+			option(value=null) Select a device series first
+		p Select all protocols in use on the device:
+		section#sctn_services
+		button#btn_submit_protocols Submit
+		section#sctn_warning_recommendations

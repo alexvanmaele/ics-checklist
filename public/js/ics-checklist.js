@@ -6,6 +6,14 @@
         'warningRecommendations': '/api/warning-recommendations/'
     };
     var devices;
+    var currentDevice = {
+    	type: "",
+    	vendor: "",
+    	series: "",
+    	name: "",
+    	protocols: []
+    };
+    var configuredDevices = [];
     console.log('ics-checklist.js loaded');
     if (typeof jQuery == 'undefined')
     {
@@ -61,6 +69,7 @@
         $('#lst_device_types').change(function()
         {
             var vendors = getVendorsFor(this.value); //for device type
+            console.log(this);
             populateVendorListWith(vendors);
             $('#lst_vendors').change(); //force update
         });
@@ -261,6 +270,10 @@
                 console.log('Got JSON!');
                 console.log(data);
                 generateWarningRecommendationListFor(data);
+                $('#sctn_add_new_device').hide();
+                //TODO
+                configuredDevices.push(currentDevice);
+                $('#spn_device_count').html(configuredDevices.length);
             },
             error: function(err)
             {
