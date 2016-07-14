@@ -399,12 +399,37 @@
             // Protocol warning/rec list
             var protocolsWithWarnings = device.protocols.filter(function(e)
             {
-            	return e.warnings.length > 0;
+                return e.warnings.length > 0;
             });
             for (var k = 0; k < protocolsWithWarnings.length; k++)
             {
+                var protocol = protocolsWithWarnings[k];
                 $('#sctn_summary').append('<section class="protocol">');
-                $('#sctn_summary section:last-child').append('<h3>' + protocolsWithWarnings[k].name + '</h3>')
+                $('#sctn_summary section:last-child').append('<h3>' + protocol.name + '</h3>');
+
+                //group by warning name
+                var warningsByName = {};
+                for (var w = 0; w < protocol.warnings.length; w++)
+                {
+                    var warning = protocol.warnings[w];
+                    if (!(warning.name in warningsByName)) warningsByName[warning.name] = [];
+                    warningsByName[warning.name].push(warning);
+                }
+                //console.log('warningsByName:');
+                //console.log(warningsByName);
+                for (var warning in warningsByName)
+                {
+                    $('#sctn_summary section:last-child').append('<h4>' + warning + '</h4>');
+                    $('#sctn_summary section:last-child').append('<p>' + warningsByName[warning][0].description + '</p>');
+                    $('#sctn_summary section:last-child').append('<h5>Recommendations:</h5>');
+                    $('#sctn_summary section:last-child').append('<ul>');
+                    for (var r = 0; r < warningsByName[warning].length; r++)
+                    {
+                        $('#sctn_summary section:last-child').append('<li>' + warningsByName[warning][r].recommendation + '</li>');
+                    }
+                    $('#sctn_summary section:last-child').append('</ul>');
+                }
+
                 $('#sctn_summary').append('</section>');
             }
         }
