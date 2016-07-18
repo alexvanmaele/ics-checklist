@@ -12,16 +12,14 @@ block scripts
 
 block content
 	div#page_cover.container
-		div.jumpotron
+		div.jumbotron
 			h1 ICS Checklist
-			p
-				ol
-					li Select a device
-					li Select all used protocols
-					li Add more devices if needed
-					li Get a summary of warnings &amp; recommendations per device
-			p
-				a.btn.btn-lg.btn-success(role='button') Get started
+			ol.lead
+				li Select a device
+				li Select all used protocols
+				li Add more devices if needed
+				li Get a summary of warnings &amp; recommendations per device
+			a.btn.btn-lg.btn-success(role='button') Get started
 
 	div#page_device.container
 		h1= title

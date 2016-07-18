@@ -1,0 +1,20 @@
+.jumbotron
+{
+	text-align: center;
+	background-color: #eee;
+	margin-top: 2em;
+	padding: 1em;
+	border-radius: 6px;
+}
+
+.jumbotron ol
+{
+	width: 20em;
+	margin: 0 auto;
+	text-align: left;
+}
+
+.jumbotron .btn
+{
+	margin: 1em 0;
+}
