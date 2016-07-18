@@ -190,8 +190,18 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
-                var serviceProtocols = getServiceProtocolsListFor(data);
-                generateProtocolSelectionMenuFor(serviceProtocols);
+                if (data && data.length > 0)
+                {
+                    var serviceProtocols = getServiceProtocolsListFor(data);
+                    generateProtocolSelectionMenuFor(serviceProtocols);
+                    $('#btn_submit_protocols').removeClass('hidden');
+                    $('#btn_submit_protocols').show();
+                }
+                else
+                {
+                    $('#sctn_services').html('<p>No services found. Please select another device.</p>');
+                    $('#btn_submit_protocols').hide();
+                }
             }
         });
     }
