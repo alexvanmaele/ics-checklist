@@ -30,7 +30,6 @@
         bindRestartButtonHandler();
         //TODO: put this in CSS
         $('#sctn_summary').hide();
-        $('#sctn_device_overview button').hide();
     }
 
     function loadDevices()
@@ -264,6 +263,8 @@
             $('#sctn_services input:checkbox').prop('checked', false);
             $('#sctn_continue_buttons').addClass('hidden');
             $('#sctn_protocols').show();
+            $('#sctn_device_overview').removeClass('hidden');
+            $('#sctn_device_overview').show();
         });
     }
 
@@ -335,7 +336,6 @@
                 configuredDevices.push(currentDevice);
                 console.log(configuredDevices);
                 $('#spn_device_count').html(configuredDevices.length);
-                $('#sctn_device_overview button').show();
                 $('#btn_add_new_device').attr('disabled', false);
                 $('#btn_get_summary').attr('disabled', false);
             },
@@ -420,7 +420,6 @@
                     }
                     $('#sctn_summary section:last-child').append('</ul>');
                 }
-
                 $('#sctn_summary').append('</section>');
             }
         }
