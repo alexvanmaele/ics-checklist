@@ -24,9 +24,10 @@
         loadDevices();
         bindStartButtonHandler();
         bindSubmitButtonHandler();
-        bindNewDeviceButtonHandler();
+        bindAddNewDeviceButtonHandler();
         bindGetSummaryButtonHandler();
         bindPrintSummaryButtonHandler();
+        bindRestartButtonHandler();
         //TODO: put this in CSS
         $('#sctn_summary').hide();
         $('#sctn_device_overview button').hide();
@@ -245,6 +246,7 @@
                 $('#sctn_add_new_device').hide();
                 $('#sctn_protocols').hide();
                 $('#sctn_continue_buttons').removeClass('hidden');
+                $('#sctn_continue_buttons').show();
                 submitProtocols(selectedProtocols);
             }
             else
@@ -254,7 +256,7 @@
         });
     }
 
-    function bindNewDeviceButtonHandler()
+    function bindAddNewDeviceButtonHandler()
     {
         $('#btn_add_new_device').click(function()
         {
@@ -274,6 +276,7 @@
             $('#sctn_continue_buttons').hide();
             $('#sctn_summary').show();
             $('#sctn_restart_print_buttons').removeClass('hidden');
+            $('#sctn_restart_print_buttons').show();
             generateSummary();
         });
     }
@@ -283,6 +286,19 @@
         $('#btn_print_summary').click(function()
         {
             window.print();
+        });
+    }
+
+    function bindRestartButtonHandler()
+    {
+        $('#btn_restart').click(function()
+        {
+            currentDevice = {};
+            configuredDevices = [];
+            $('#sctn_summary').hide();
+            $('#sctn_restart_print_buttons').hide();
+            $('#sctn_add_new_device').show();
+            $('#sctn_protocols').show();
         });
     }
 
@@ -365,6 +381,7 @@
 
     function generateSummary()
     {
+        $('#sctn_summary').html('');
         for (var i = 0; i < configuredDevices.length; i++)
         {
             var device = configuredDevices[i];
