@@ -1,3 +1,7 @@
+body {
+    padding: 1em;
+}
+
 .jumbotron {
     text-align: center;
     background-color: #eee;
@@ -16,8 +20,31 @@
     margin: 1em 0;
 }
 
+.device-selection {
+    font-size: 1.4em;
+}
+
+.device-selection select {
+    margin-bottom: 1em;
+}
+
+.protocols button {
+    margin-top: 2em;
+}
+
 .restart-print-buttons {
     margin-top: 2em;
+}
+
+.service input[type='checkbox'] {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.service label {
+    font-size: 1.2em;
+    vertical-align: super;
+    margin: 0 0.5em;
 }
 
 @media print {

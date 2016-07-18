@@ -20,7 +20,7 @@ block content
 				li Add more devices if needed
 				li Get a summary of warnings &amp; recommendations per device
 			a#btn_start_selection.btn.btn-lg.btn-success(role='button') Get started
-	div#page_main.container.hidden
+	div#page_main.container.hidden.page-main
 		h1= title
 		div.row
 			section#sctn_device_overview.col-md-12.hidden
@@ -30,7 +30,8 @@ block content
 			button(disabled=true)#btn_add_new_device.col-md-6.btn.btn-success Add new device
 			button(disabled=true)#btn_get_summary.col-md-6.btn.btn-info Get summary
 		div.row
-			section#sctn_add_new_device.col-md-6
+			section#sctn_add_new_device.col-md-6.device-selection
+				h2 Device
 				p Select a device type:
 				select#lst_device_types
 					option(value=null) Loading device types...
@@ -43,8 +44,8 @@ block content
 				p Select a device:
 				select#lst_devices
 					option(value=null) Select a device series first
-			section#sctn_protocols.col-md-6
-				p Select all protocols in use on the device:
+			section#sctn_protocols.col-md-6.protocols
+				h2 Protocols
 				section#sctn_services
 				button#btn_submit_protocols.btn.btn-success Submit
 		div.row
