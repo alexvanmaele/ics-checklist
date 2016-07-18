@@ -22,6 +22,7 @@
     function start()
     {
         loadDevices();
+        bindStartButtonHandler();
         bindSubmitButtonHandler();
         bindNewDeviceButtonHandler();
         bindGetSummaryButtonHandler();
@@ -61,6 +62,15 @@
         {
             $('#lst_device_types').append('<option value="' + type + '">' + type + '</option>');
         });
+    }
+
+    function bindStartButtonHandler()
+    {
+    	$('#btn_start_selection').click(function()
+    	{
+    		$('#page_cover').hide();
+    		$('#page_main').removeClass('hidden');
+    	});
     }
 
     function bindListEventHandlers()
