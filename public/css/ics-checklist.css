@@ -1,20 +1,36 @@
-.jumbotron
-{
-	text-align: center;
-	background-color: #eee;
-	margin-top: 2em;
-	padding: 1em;
-	border-radius: 6px;
+.jumbotron {
+    text-align: center;
+    background-color: #eee;
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 6px;
 }
 
-.jumbotron ol
-{
-	width: 20em;
-	margin: 0 auto;
-	text-align: left;
+.jumbotron ol {
+    width: 20em;
+    margin: 0 auto;
+    text-align: left;
 }
 
-.jumbotron .btn
-{
-	margin: 1em 0;
+.jumbotron .btn {
+    margin: 1em 0;
+}
+
+.restart-print-buttons {
+    margin-top: 2em;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .printable,
+    .printable * {
+        visibility: visible;
+    }
+    .printable {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 }

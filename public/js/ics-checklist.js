@@ -26,6 +26,7 @@
         bindSubmitButtonHandler();
         bindNewDeviceButtonHandler();
         bindGetSummaryButtonHandler();
+        bindPrintSummaryButtonHandler();
         //TODO: put this in CSS
         $('#sctn_summary').hide();
         $('#sctn_device_overview button').hide();
@@ -66,11 +67,11 @@
 
     function bindStartButtonHandler()
     {
-    	$('#btn_start_selection').click(function()
-    	{
-    		$('#page_cover').hide();
-    		$('#page_main').removeClass('hidden');
-    	});
+        $('#btn_start_selection').click(function()
+        {
+            $('#page_cover').hide();
+            $('#page_main').removeClass('hidden');
+        });
     }
 
     function bindListEventHandlers()
@@ -272,7 +273,16 @@
             $('#sctn_add_new_device').hide();
             $('#sctn_continue_buttons').hide();
             $('#sctn_summary').show();
+            $('#sctn_restart_print_buttons').removeClass('hidden');
             generateSummary();
+        });
+    }
+
+    function bindPrintSummaryButtonHandler()
+    {
+        $('#btn_print_summary').click(function()
+        {
+            window.print();
         });
     }
 

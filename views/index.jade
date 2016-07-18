@@ -28,8 +28,8 @@ block content
 				p Devices currently added: 
 					span#spn_device_count 0
 		section#sctn_continue_buttons.row.hidden
-			button(disabled=true)#btn_add_new_device.col-md-6 Add new device
-			button(disabled=true)#btn_get_summary.col-md-6 Get summary
+			button(disabled=true)#btn_add_new_device.col-md-6.btn.btn-success Add new device
+			button(disabled=true)#btn_get_summary.col-md-6.btn.btn-info Get summary
 		div.row
 			section#sctn_add_new_device.col-md-6
 				p Select a device type:
@@ -47,6 +47,9 @@ block content
 			section#sctn_protocols.col-md-6
 				p Select all protocols in use on the device:
 				section#sctn_services
-				button#btn_submit_protocols Submit
+				button#btn_submit_protocols.btn.btn-success Submit
 		div.row
-			section#sctn_summary.col-md-12
+			section#sctn_summary.col-md-12.printable
+		section#sctn_restart_print_buttons.restart-print-buttons.row.hidden
+			button#btn_print_summary.col-md-6.btn.btn-success Print summary
+			button#btn_restart.col-md-6.btn.btn-warning Restart
