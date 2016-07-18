@@ -10,28 +10,44 @@ block scripts
 	script(src="/js/ics-checklist.js")
 
 block content
-	div.container-fluid
+	div#page_cover.container
+		div.jumpotron
+			h1 ICS Checklist
+			p
+				ol
+					li Select a device
+					li Select all used protocols
+					li Add more devices if needed
+					li Get a summary of warnings &amp; recommendations per device
+			p
+				a.btn.btn-lg.btn-success(role='button') Get started
+
+	div#page_device.container
 		h1= title
-		section#sctn_device_overview
-			p Devices currently added: 
-				span#spn_device_count 0
-			hr
-			button(disabled=true)#btn_add_new_device Add new device
-			button(disabled=true)#btn_get_summary Get summary
-		section#sctn_add_new_device
-			p Select a device type:
-			select#lst_device_types
-				option(value=null) Loading device types...
-			p Select a vendor:
-			select#lst_vendors
-				option(value=null) Select a device type first
-			p Select a device series:
-			select#lst_device_series
-				option(value=null) Select a vendor first
-			p Select a device:
-			select#lst_devices
-				option(value=null) Select a device series first
-			p Select all protocols in use on the device:
-			section#sctn_services
-			button#btn_submit_protocols Submit
-		section#sctn_summary
+		div.row
+			section#sctn_device_overview.col-md-12
+				p Devices currently added: 
+					span#spn_device_count 0
+				hr
+				button(disabled=true)#btn_add_new_device Add new device
+				button(disabled=true)#btn_get_summary Get summary
+		div.row
+			section#sctn_add_new_device.col-md-6
+				p Select a device type:
+				select#lst_device_types
+					option(value=null) Loading device types...
+				p Select a vendor:
+				select#lst_vendors
+					option(value=null) Select a device type first
+				p Select a device series:
+				select#lst_device_series
+					option(value=null) Select a vendor first
+				p Select a device:
+				select#lst_devices
+					option(value=null) Select a device series first
+				p Select all protocols in use on the device:
+			div.col-md-6
+				section#sctn_services
+				button#btn_submit_protocols Submit
+		div.row
+			section#sctn_summary.col-md-12
