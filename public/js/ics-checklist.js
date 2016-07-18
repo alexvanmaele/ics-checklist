@@ -28,6 +28,7 @@
         bindGetSummaryButtonHandler();
         bindPrintSummaryButtonHandler();
         bindRestartButtonHandler();
+        bindCancelProtocolSelectionButtonHandler();
         //TODO: put this in CSS
         $('#sctn_summary').hide();
     }
@@ -275,6 +276,11 @@
             $('#sctn_protocols').show();
             $('#sctn_device_overview').removeClass('hidden');
             $('#sctn_device_overview').show();
+            if (configuredDevices.length > 0)
+            {
+                $('#btn_cancel_protocol_selection').removeClass('hidden');
+                $('#btn_cancel_protocol_selection').show();
+            }
         });
     }
 
@@ -311,6 +317,18 @@
             $('#sctn_add_new_device').show();
             $('#sctn_protocols').show();
             $('#sctn_services input:checkbox').prop('checked', false);
+            $('#btn_cancel_protocol_selection').hide();
+        });
+    }
+
+    function bindCancelProtocolSelectionButtonHandler()
+    {
+        $('#btn_cancel_protocol_selection').click(function()
+        {
+            $('#sctn_add_new_device').hide();
+            $('#sctn_protocols').hide();
+            $('#sctn_continue_buttons').removeClass('hidden');
+            $('#sctn_continue_buttons').show();
         });
     }
 
