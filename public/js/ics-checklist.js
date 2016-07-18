@@ -241,6 +241,9 @@
             var selectedProtocols = getSelectedProtocols();
             if (selectedProtocols.length > 0)
             {
+                $('#sctn_add_new_device').hide();
+                $('#sctn_protocols').hide();
+                $('#sctn_continue_buttons').removeClass('hidden');
                 submitProtocols(selectedProtocols);
             }
             else
@@ -256,6 +259,8 @@
         {
             $('#sctn_add_new_device').show();
             $('#sctn_services input:checkbox').prop('checked', false);
+            $('#sctn_continue_buttons').addClass('hidden');
+            $('#sctn_protocols').show();
         });
     }
 
@@ -265,6 +270,7 @@
         {
             $('#sctn_device_overview').hide();
             $('#sctn_add_new_device').hide();
+            $('#sctn_continue_buttons').hide();
             $('#sctn_summary').show();
             generateSummary();
         });
@@ -302,7 +308,6 @@
                 updateDeviceWarningRecommendations(data);
                 configuredDevices.push(currentDevice);
                 console.log(configuredDevices);
-                $('#sctn_add_new_device').hide();
                 $('#spn_device_count').html(configuredDevices.length);
                 $('#sctn_device_overview button').show();
                 $('#btn_add_new_device').attr('disabled', false);
