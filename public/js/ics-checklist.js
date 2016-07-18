@@ -300,6 +300,7 @@
             $('#sctn_restart_print_buttons').hide();
             $('#sctn_add_new_device').show();
             $('#sctn_protocols').show();
+            $('#sctn_services input:checkbox').prop('checked', false);
         });
     }
 
