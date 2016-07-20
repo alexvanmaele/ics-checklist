@@ -3,24 +3,29 @@ ICS Security Checklist
 
 A web app used to inventorize computing devices in an industrial network, list their potential vulnerabilities and provide recommendations for solving them.
 
-## Use case
-1. Select all devices in inventory
-2. Select services used per device
-3. Receive report of warnings
-4. Receive recommendations per warning
+## Usage
+1. Select a device used in the industrial network
+2. Check all enabled services on this device
+3. Add more devices if necessary	
+4. Get a summary of all associated warnings per device and ways to fix them
 
-## Technical
+## Dependencies
 ### Front-end
-Browser requirements:
-* HTML5 support
-* JavaScript enabled
-
-Third-party code:
+* HTML5
+* JavaScript
 * jQuery
 * Bootstrap
 
 ### Back-end
-Third-party code:
 * MySQL server (InnoDB)
 * Node.js
 * Express
+
+## Installation
+### Database
+
+
+### Web server
+
+
+### Application
