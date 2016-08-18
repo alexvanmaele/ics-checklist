@@ -103,3 +103,29 @@ A standalone MySQL installation can be used, though it is recommended to install
   ```
   localhost:3000
   ```
+  
+  
+### Persistent service
+Should the web server encounter an error, it will log the exception to the console and exit by default. In order to automatically restart the server after a crash, you can use the [forever npm package](https://www.npmjs.com/package/forever).
+
+1. Install forever:
+  ```sh
+  sudo npm install forever -g
+  ```
+  
+2. Go to your project directory:
+  ```sh
+  cd ics-checklist/
+  ```
+
+3. Run the web server using forever:
+  ```sh
+  forever start ./bin/www
+  ```
+
+You can now access the server like you would normally. Everything will be logged to the forever logs, which you can access using:
+  ```sh
+  forever logs
+  ```
+  
+Should the server crash, forever will restart it.
