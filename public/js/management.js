@@ -78,14 +78,6 @@
 
     function bindListEventHandlers()
     {
-        /*$('#lst_device_types').change(function()
-        {
-            //TODO: remove getVendorsFor call
-            var vendors = getVendorsFor(this.value); //for device type
-            console.log(this);
-            populateVendorListWith(vendors);
-            $('#lst_vendors').change(); //force update
-        });*/
         $('#lst_vendors').change(function()
         {
             var selectedVendor = this.value;
@@ -96,11 +88,10 @@
         $('#lst_device_series').change(function()
         {
             var selectedVendor = $('#lst_vendors option:selected').text();
-            //var selectedType = $('#lst_device_types option:selected').text();
             var selectedSeries = $(this).children('option').filter(':selected').text();
             loadDevicesFor(selectedVendor, selectedSeries);
-            //populateDevicesListWith(filteredDevices);
             $('#lst_devices').change(); //force update
+            $('#div_new_device').removeClass('hidden');
         });
         /*$('#lst_devices').change(function()
         {
@@ -124,7 +115,6 @@
 
     function loadDeviceSeriesFor(vendor)
     {
-        console.log(vendor);
         $.ajax(
         {
             dataType: 'json',
@@ -150,8 +140,6 @@
 
     function loadDevicesFor(vendor, series)
     {
-        console.log(vendor);
-        console.log(series);
         $.ajax(
         {
             dataType: 'json',
@@ -164,25 +152,11 @@
                 {
                     return e.vendor == vendor && e.series == series;
                 });
-                console.log(filteredData);
                 populateDevicesListWith(filteredData); 
                 $('#lst_devices').change(); //update immediately after receiving JSON 
             }
         });
     }
-
-    /*function getDevicesFor(vendor, type, series)
-    {
-        var filteredDevices = [];
-        for (var i = 0; i < devices.length; i++)
-        {
-            if (devices[i].vendor == vendor && devices[i].type == type && devices[i].series == series && filteredDevices.indexOf(devices[i]) == -1)
-            {
-                filteredDevices.push(devices[i]);
-            }
-        }
-        return filteredDevices;
-    }*/
 
     function populateDevicesListWith(filteredDevices)
     {
