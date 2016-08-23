@@ -13,17 +13,19 @@ block scripts
 block content
 	h1= title
 	div.row
-		section#sctn_device_overview.col-md-2
-			p Vendors
-				p Device types:
-				select#lst_device_types
-					option(value=null) Loading device types...
-				p Vendors:
-				select#lst_vendors
-					option(value=null) Select a device type first
-				p Device series:
-				select#lst_device_series
-					option(value=null) Select a vendor first
-				p Devices:
-				select#lst_devices
-					option(value=null) Select a device series first
+		section#sctn_device_types.col-md-2
+			p Device types:
+			select#lst_device_types(multiple)
+				option(value=null) Loading device types...
+		section#sctn_vendors.col-md-2
+			p Vendors:
+			select#lst_vendors(multiple)
+				option(value=null) Select a device type first
+		section#sctn_device_series.col-md-2
+			p Device series:
+			select#lst_device_series(multiple)
+				option(value=null) Select a vendor first
+		section#sctn_devices.col-md-2
+			p Devices:
+			select#lst_devices(multiple)
+				option(value=null) Select a device series first
