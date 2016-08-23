@@ -22,7 +22,9 @@ block content
 		section#sctn_vendors.col-md-2
 			p Vendors:
 			select#lst_vendors(multiple)
-				option(value=null) Select a device type first
+				option(value=null) Loading vendors...
+			input#txt_new_vendor
+			button#btn_add_vendor Add
 		section#sctn_device_series.col-md-2
 			p Device series:
 			select#lst_device_series(multiple)
