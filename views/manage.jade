@@ -17,20 +17,23 @@ block content
 			p Device types:
 			select#lst_device_types(multiple)
 				option(value=null) Loading device types...
-			input#txt_new_device_type
-			button#btn_add_device_type Add
+			div#div_new_device_type
+				input#txt_new_device_type
+				button#btn_add_device_type Add
 		section#sctn_vendors.col-md-2
 			p Vendors:
 			select#lst_vendors(multiple)
 				option(value=null) Loading vendors...
-			input#txt_new_vendor
-			button#btn_add_vendor Add
+			div#div_new_vendor
+				input#txt_new_vendor
+				button#btn_add_vendor Add
 		section#sctn_device_series.col-md-2
 			p Device series:
 			select#lst_device_series(multiple)
 				option(value=null) Select a vendor first
-			input#txt_new_device_series
-			button#btn_add_device_series Add
+			div#div_new_device_series.hidden
+				input#txt_new_device_series
+				button#btn_add_device_series Add
 		section#sctn_devices.col-md-2
 			p Devices:
 			select#lst_devices(multiple)

@@ -91,6 +91,7 @@
             var selectedVendor = this.value;
             loadDeviceSeriesFor(selectedVendor);
             $('#lst_device_series').change(); //force update
+            $('#div_new_device_series').removeClass('hidden');
         });
         /*$('#lst_device_series').change(function()
         {
@@ -132,7 +133,7 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
-                populateDeviceSeriesListWith(data);
+                populateDeviceSeriesListWith(data); 
                 $('#lst_device_series').change(); //update immediately after receiving JSON 
             }
         });
