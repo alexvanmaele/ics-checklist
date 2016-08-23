@@ -6,7 +6,7 @@
         'devices': apiUrl + '/devices/',
         'serviceProtocols': apiUrl + '/service-protocols/',
         'warningRecommendations': apiUrl + '/warning-recommendations/',
-        'vendors': apiUrl+'/vendors/'
+        'vendors': apiUrl + '/vendors/'
     };
     //var devices;
     var currentDevice = {};
@@ -82,6 +82,7 @@
     {
         $('#lst_device_types').change(function()
         {
+            //TODO: remove getVendorsFor call
             var vendors = getVendorsFor(this.value); //for device type
             console.log(this);
             populateVendorListWith(vendors);
@@ -110,7 +111,22 @@
         });
     }
 
-    function getVendorsFor(type)
+    function populateVendorList(data)
+    {
+        $('#lst_vendors').empty();
+        var vendors = [];
+        for (var i = 0; i < data.length; i++)
+        {
+            var name = data[i].name;
+            if (vendors.indexOf(name) == -1) vendors.push(name);
+        }
+        $.each(vendors, function(key, name)
+        {
+            $('#lst_vendors').append('<option value="' + name + '">' + name + '</option>');
+        });
+    }
+
+    /*function getVendorsFor(type)
     {
         var vendorsForType = [];
         for (var i = 0; i < devices.length; i++)
@@ -122,7 +138,7 @@
             }
         }
         return vendorsForType;
-    }
+    }*/
 
     function populateVendorListWith(vendors)
     {
