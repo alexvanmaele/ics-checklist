@@ -1,5 +1,5 @@
 /*
-	IMPORTS
+    IMPORTS
 */
 var express = require('express');
 var router = express.Router();
@@ -7,7 +7,7 @@ var app = express();
 var bodyParser = require('body-parser')
 var mysql = require('mysql');
 /*
-	SETUP
+    SETUP
 */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(
@@ -33,7 +33,7 @@ connection.connect(function(err)
     }
 });
 /*
-	ROUTES
+    ROUTES
 */
 // Default route
 router.get('/', function(req, res, next)
@@ -54,38 +54,48 @@ router.get('/vendors', function(req, res, next)
 router.get('/vendors/:typeId', function(req, res, next)
 {
     var query = `
-		select vendors.id, vendors.name
-		from devices
-		join vendors on vendors.id = devices.vendor
-		where devices.id in (select dt.device from device_types dt where dt.type = ?)
-	`;
+        select vendors.id, vendors.name
+        from devices
+        join vendors on vendors.id = devices.vendor
+        where devices.id in (select dt.device from device_types dt where dt.type = ?)
+    `;
     sendQueryResults(query, [req.params.typeId], res);
+});
+// Get device series per vendor
+router.get('/device-series/:vendorId', function(req, res, next)
+{
+    var query = `
+        select *
+        from series
+        where vendor = ?
+    `;
+    sendQueryResults(query, [req.params.vendorId], res);
 });
 // Get devices
 router.get('/devices', function(req, res, next)
 {
     var query = `
-		select devices.id, vendors.name as vendor, series.name as series, devices.name as device, types.name as type
-		from devices
-		join series on series.id = devices.series
-		join vendors on vendors.id = devices.vendor
-		join device_types on device_types.device = devices.id
-		join types on device_types.type = types.id
-		order by vendors.name
-	`;
+        select devices.id, vendors.name as vendor, series.name as series, devices.name as device, types.name as type
+        from devices
+        join series on series.id = devices.series
+        join vendors on vendors.id = devices.vendor
+        join device_types on device_types.device = devices.id
+        join types on device_types.type = types.id
+        order by vendors.name
+    `;
     sendQueryResults(query, null, res);
 });
 // Get devices with vendor per device type
 router.get('/devices/:typeId', function(req, res, next)
 {
     var query = `
-		select devices.id, vendors.name as vendor, series.name as series, devices.name as device
-		from devices
-		join series on series.id = devices.series
-		join vendors on vendors.id = devices.vendor
-		where devices.id in (select dt.device from device_types dt where dt.type = ?)
-		order by vendors.name
-	`;
+        select devices.id, vendors.name as vendor, series.name as series, devices.name as device
+        from devices
+        join series on series.id = devices.series
+        join vendors on vendors.id = devices.vendor
+        where devices.id in (select dt.device from device_types dt where dt.type = ?)
+        order by vendors.name
+    `;
     sendQueryResults(query, [req.params.typeId], res);
 });
 // Get services
@@ -97,12 +107,12 @@ router.get('/services', function(req, res, next)
 router.get('/services/:deviceId', function(req, res, next)
 {
     var query = `
-		select services.id, services.name as service
-		from services
-		join device_services on services.id = device_services.service
-		where device_services.device = ?
-		order by service
-	`;
+        select services.id, services.name as service
+        from services
+        join device_services on services.id = device_services.service
+        where device_services.device = ?
+        order by service
+    `;
     sendQueryResults(query, [req.params.deviceId], res);
 });
 // Get protocols
@@ -114,26 +124,26 @@ router.get('/protocols', function(req, res, next)
 router.get('/protocols/:serviceId', function(req, res, next)
 {
     var query = `
-		select protocols.id, protocols.name as protocol
-		from protocols
-		join service_protocols on protocols.id = service_protocols.protocol
-		where service_protocols.service = ?
-		order by protocols.name
-	`;
+        select protocols.id, protocols.name as protocol
+        from protocols
+        join service_protocols on protocols.id = service_protocols.protocol
+        where service_protocols.service = ?
+        order by protocols.name
+    `;
     sendQueryResults(query, [req.params.serviceId], res);
 });
 // Get all services with protocols per device
 router.get('/service-protocols/:deviceId', function(req, res, next)
 {
     var query = `
-		select protocols.id as protocol_id, services.name as service, protocols.name as protocol
-		from services
-		join device_services on services.id = device_services.service
-		join service_protocols on services.id = service_protocols.service
-		join protocols on protocols.id = service_protocols.protocol
-		where device_services.device = ?
-		order by service
-	`;
+        select protocols.id as protocol_id, services.name as service, protocols.name as protocol
+        from services
+        join device_services on services.id = device_services.service
+        join service_protocols on services.id = service_protocols.service
+        join protocols on protocols.id = service_protocols.protocol
+        where device_services.device = ?
+        order by service
+    `;
     sendQueryResults(query, [req.params.deviceId], res);
 });
 // Get warnings
@@ -145,12 +155,12 @@ router.get('/warnings', function(req, res, next)
 router.get('/warnings/:protocolId', function(req, res, next)
 {
     var query = `
-		select warnings.id, warnings.name as title, warnings.description
-		from warnings
-		join protocol_warnings on warnings.id = protocol_warnings.warning
-		where protocol_warnings.protocol = ?
-		order by warnings.name
-	`;
+        select warnings.id, warnings.name as title, warnings.description
+        from warnings
+        join protocol_warnings on warnings.id = protocol_warnings.warning
+        where protocol_warnings.protocol = ?
+        order by warnings.name
+    `;
     sendQueryResults(query, [req.params.protocolId], res);
 });
 // Get recommendations
@@ -162,25 +172,25 @@ router.get('/recommendations', function(req, res, next)
 router.get('/recommendations/:warningId', function(req, res, next)
 {
     var query = `
-		select recommendations.id, recommendations.name as title, recommendations.description
-		from recommendations
-		join warning_recommendations on recommendations.id = warning_recommendations.recommendation
-		where warning_recommendations.warning = ?
-		order by recommendations.name
-	`;
+        select recommendations.id, recommendations.name as title, recommendations.description
+        from recommendations
+        join warning_recommendations on recommendations.id = warning_recommendations.recommendation
+        where warning_recommendations.warning = ?
+        order by recommendations.name
+    `;
     sendQueryResults(query, [req.params.warningId], res);
 });
 // Get warnings and recommendations for list of protocols
 router.post('/warning-recommendations/', function(req, res, next)
 {
     var query = `
-		select warnings.id, protocol_warnings.protocol, warnings.name, warnings.description, recommendations.description as recommendation
-		from warnings
-		join protocol_warnings on protocol_warnings.warning = warnings.id
-		join warning_recommendations on warning_recommendations.warning = warnings.id
-		join recommendations on recommendations.id = warning_recommendations.recommendation
-		where protocol in 
-	`;
+        select warnings.id, protocol_warnings.protocol, warnings.name, warnings.description, recommendations.description as recommendation
+        from warnings
+        join protocol_warnings on protocol_warnings.warning = warnings.id
+        join warning_recommendations on warning_recommendations.warning = warnings.id
+        join recommendations on recommendations.id = warning_recommendations.recommendation
+        where protocol in 
+    `;
     var protocolArray = [];
     try
     {
@@ -200,7 +210,7 @@ router.post('/warning-recommendations/', function(req, res, next)
     }
 });
 /*
-	DEBUG
+    DEBUG
 */
 router.get("/test-database", function(req, res)
 {
@@ -218,7 +228,7 @@ router.get("/test-database", function(req, res)
     });
 });
 /*
-	HELPER FUNCTIONS
+    HELPER FUNCTIONS
 */
 function sendQueryResults(query, queryParams, res)
 {
@@ -230,6 +240,6 @@ function sendQueryResults(query, queryParams, res)
     });
 }
 /*
-	EXPORTS
+    EXPORTS
 */
 module.exports = router;
