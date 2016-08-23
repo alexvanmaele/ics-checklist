@@ -1,9 +1,11 @@
 (function()
 {
+    var apiUrl = '/api';
     var urls = {
-        'devices': '/api/devices/',
-        'serviceProtocols': '/api/service-protocols/',
-        'warningRecommendations': '/api/warning-recommendations/'
+        'deviceTypes': apiUrl+'/device-types/',
+        'devices': apiUrl+'/devices/',
+        'serviceProtocols': apiUrl+'/service-protocols/',
+        'warningRecommendations': apiUrl+'/warning-recommendations/'
     };
     var devices;
     var currentDevice = {};
@@ -21,7 +23,7 @@
 
     function start()
     {
-        loadDevices();
+        loadDeviceTypes();
     }
 
     function loadDevices()
