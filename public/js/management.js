@@ -93,19 +93,19 @@
             $('#lst_device_series').change(); //force update
             $('#div_new_device_series').removeClass('hidden');
         });
-        /*$('#lst_device_series').change(function()
+        $('#lst_device_series').change(function()
         {
-            var selectedVendor = $('#lst_vendors option:selected').text();;
-            var selectedType = $('#lst_device_types option:selected').text();
-            var selectedSeries = this.value;
-            var filteredDevices = getDevicesFor(selectedVendor, selectedType, selectedSeries);
-            populateDevicesListWith(filteredDevices);
+            var selectedVendor = $('#lst_vendors option:selected').text();
+            //var selectedType = $('#lst_device_types option:selected').text();
+            var selectedSeries = $(this).children('option').filter(':selected').text();
+            loadDevicesFor(selectedVendor, selectedSeries);
+            //populateDevicesListWith(filteredDevices);
             $('#lst_devices').change(); //force update
-        });*/
-        $('#lst_devices').change(function()
+        });
+        /*$('#lst_devices').change(function()
         {
             loadProtocolsForDevice(this.value); //device ID
-        });
+        });*/
     }
 
     function populateVendorList(data)
@@ -137,17 +137,6 @@
                 $('#lst_device_series').change(); //update immediately after receiving JSON 
             }
         });
-
-        /*var deviceSeriesForVendor = [];
-        for (var i = 0; i < devices.length; i++)
-        {
-            var series = devices[i].series;
-            if (devices[i].vendor == vendor && deviceSeriesForVendor.indexOf(series) == -1)
-            {
-                deviceSeriesForVendor.push(series);
-            }
-        }
-        return deviceSeriesForVendor;*/
     }
 
     function populateDeviceSeriesListWith(deviceSeries)
@@ -159,7 +148,30 @@
         });
     }
 
-    function getDevicesFor(vendor, type, series)
+    function loadDevicesFor(vendor, series)
+    {
+        console.log(vendor);
+        console.log(series);
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.devices,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                var filteredData = data.filter(function(e)
+                {
+                    return e.vendor == vendor && e.series == series;
+                });
+                console.log(filteredData);
+                populateDevicesListWith(filteredData); 
+                $('#lst_devices').change(); //update immediately after receiving JSON 
+            }
+        });
+    }
+
+    /*function getDevicesFor(vendor, type, series)
     {
         var filteredDevices = [];
         for (var i = 0; i < devices.length; i++)
@@ -170,7 +182,7 @@
             }
         }
         return filteredDevices;
-    }
+    }*/
 
     function populateDevicesListWith(filteredDevices)
     {
