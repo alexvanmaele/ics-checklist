@@ -2,12 +2,13 @@
 {
     var apiUrl = '/api';
     var urls = {
-        'deviceTypes': apiUrl+'/device-types/',
-        'devices': apiUrl+'/devices/',
-        'serviceProtocols': apiUrl+'/service-protocols/',
-        'warningRecommendations': apiUrl+'/warning-recommendations/'
+        'deviceTypes': apiUrl + '/device-types/',
+        'devices': apiUrl + '/devices/',
+        'serviceProtocols': apiUrl + '/service-protocols/',
+        'warningRecommendations': apiUrl + '/warning-recommendations/',
+        'vendors': apiUrl+'/vendors/'
     };
-    var devices;
+    //var devices;
     var currentDevice = {};
     var configuredDevices = [];
     console.log('ics-checklist.js loaded');
@@ -24,33 +25,51 @@
     function start()
     {
         loadDeviceTypes();
+        loadVendors();
     }
 
-    function loadDevices()
+    function loadDeviceTypes()
     {
         $.ajax(
         {
             dataType: 'json',
-            url: urls.devices,
+            url: urls.deviceTypes,
             success: function(data)
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
-                devices = data;
-                populateDeviceTypeList();
-                bindListEventHandlers();
+                //devices = data;
+                populateDeviceTypeList(data);
+                //TODO: update later
+                //bindListEventHandlers();
                 $('#lst_device_types').change(); //update immediately after receiving JSON 
             }
         });
     }
 
-    function populateDeviceTypeList()
+    function loadVendors()
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.vendors,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                populateVendorList(data);
+                $('#lst_device_types').change(); //update immediately after receiving JSON 
+            }
+        });
+    }
+
+    function populateDeviceTypeList(data)
     {
         $('#lst_device_types').empty();
         var deviceTypes = [];
-        for (var i = 0; i < devices.length; i++)
+        for (var i = 0; i < data.length; i++)
         {
-            var type = devices[i].type;
+            var type = data[i].name;
             if (deviceTypes.indexOf(type) == -1) deviceTypes.push(type);
         }
         $.each(deviceTypes, function(key, type)
