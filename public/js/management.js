@@ -9,7 +9,8 @@
         'vendors': apiUrl + '/vendors/',
         'deviceSeries': apiUrl + '/device-series/',
         'services': apiUrl + '/services/',
-        'protocols': apiUrl + '/protocols/'
+        'protocols': apiUrl + '/protocols/',
+        'warnings': apiUrl + '/warnings/'
     };
     var currentDevice = {};
     var configuredDevices = [];
@@ -30,6 +31,7 @@
         loadDeviceTypes();
         loadServices();
         loadProtocols();
+        loadWarnings();
         bindListEventHandlers();
     }
 
@@ -90,6 +92,21 @@
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
                 populateProtocolsList(data);
+            }
+        });
+    }
+
+    function loadWarnings()
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.warnings,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                populateWarningsList(data);
             }
         });
     }
@@ -261,6 +278,15 @@
         $.each(data, function(key, protocol)
         {
             $('#lst_protocols').append('<option value="' + protocol.id + '">' + protocol.name + '</option>');
+        });
+    }
+
+    function populateWarningsList(data)
+    {
+        $('#lst_warnings').empty();
+        $.each(data, function(key, warning)
+        {
+            $('#lst_warnings').append('<option value="' + warning.id + '">' + warning.name + '</option>');
         });
     }
 })();
