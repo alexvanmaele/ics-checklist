@@ -8,7 +8,8 @@
         'warningRecommendations': apiUrl + '/warning-recommendations/',
         'vendors': apiUrl + '/vendors/',
         'deviceSeries': apiUrl + '/device-series/',
-        'services': apiUrl + '/services/'
+        'services': apiUrl + '/services/',
+        'protocols': apiUrl + '/protocols/'
     };
     var currentDevice = {};
     var configuredDevices = [];
@@ -28,6 +29,7 @@
         loadVendors();
         loadDeviceTypes();
         loadServices();
+        loadProtocols();
         bindListEventHandlers();
     }
 
@@ -73,6 +75,21 @@
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
                 populateServicesList(data);
+            }
+        });
+    }
+
+    function loadProtocols()
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.protocols,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                populateProtocolsList(data);
             }
         });
     }
@@ -235,6 +252,15 @@
         $.each(data, function(key, service)
         {
             $('#lst_services').append('<option value="' + service.id + '">' + service.name + '</option>');
+        });
+    }
+
+    function populateProtocolsList(data)
+    {
+        $('#lst_protocols').empty();
+        $.each(data, function(key, protocol)
+        {
+            $('#lst_protocols').append('<option value="' + protocol.id + '">' + protocol.name + '</option>');
         });
     }
 })();
