@@ -14,6 +14,7 @@
     };
     var currentDevice = {};
     var configuredDevices = [];
+    var warnings;
     console.log('ics-checklist.js loaded');
     if (typeof jQuery == 'undefined')
     {
@@ -106,6 +107,7 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
+                warnings = data;
                 populateWarningsList(data);
             }
         });
@@ -143,10 +145,18 @@
             $('#lst_devices').change(); //force update
             $('#div_new_device').removeClass('hidden');
         });
-        /*$('#lst_devices').change(function()
+        $('#lst_warnings').change(function()
         {
-            loadProtocolsForDevice(this.value); //device ID
-        });*/
+            var name = $(this).children('option').filter(':selected').text();
+            var id = this.value;
+            var description = warnings.filter(function(e)
+                {
+                    return e.id == id;
+                })[0].description;
+            console.log(description);
+            $('#txt_new_warning_name').val(name);
+            $('#txt_new_warning_description').val(description);
+        });
     }
 
     function populateVendorList(data)
