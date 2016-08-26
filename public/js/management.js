@@ -172,9 +172,19 @@
             {
                 return e.id == id;
             })[0].description;
-            console.log(description);
             $('#txt_new_warning_name').val(name);
             $('#txt_new_warning_description').val(description);
+        });
+        $('#lst_recommendations').change(function()
+        {
+            var name = $(this).children('option').filter(':selected').text();
+            var id = this.value;
+            var description = recommendations.filter(function(e)
+            {
+                return e.id == id;
+            })[0].description;
+            $('#txt_new_recommendation_name').val(name);
+            $('#txt_new_recommendation_description').val(description);
         });
     }
 
