@@ -56,3 +56,16 @@ block content
 			div#div_new_protocol
 				input#txt_new_protocol
 				button#btn_add_protocol Add
+	div.row
+		section#sctn_warnings.col-md-2
+			p Warnings:
+			select#lst_warnings(multiple)
+				option(value=null) Loading warnings...
+		section#sctn_new_warning.col-md-2
+			label(for='#txt_new_warning_name') Name:
+			input#txt_new_warning_name
+			br
+			label(for='#txt_new_warning_description') Description:
+			textarea#txt_new_warning_description		
+			button#btn_add_warning Add
+		
