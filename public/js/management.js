@@ -7,7 +7,8 @@
         'serviceProtocols': apiUrl + '/service-protocols/',
         'warningRecommendations': apiUrl + '/warning-recommendations/',
         'vendors': apiUrl + '/vendors/',
-        'deviceSeries': apiUrl + '/device-series/'
+        'deviceSeries': apiUrl + '/device-series/',
+        'services': apiUrl + '/services/'
     };
     var currentDevice = {};
     var configuredDevices = [];
@@ -26,6 +27,7 @@
     {
         loadVendors();
         loadDeviceTypes();
+        loadServices();
         bindListEventHandlers();
     }
 
@@ -40,7 +42,6 @@
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
                 populateDeviceTypeList(data);
-                $('#lst_device_types').change(); //update immediately after receiving JSON 
             }
         });
     }
@@ -57,6 +58,21 @@
                 console.log(JSON.stringify(data, null, 2));
                 populateVendorList(data);
                 $('#lst_device_types').change(); //update immediately after receiving JSON 
+            }
+        });
+    }
+
+    function loadServices()
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.services,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                populateServicesList(data);
             }
         });
     }
@@ -123,7 +139,7 @@
             {
                 console.log('Got JSON!');
                 console.log(JSON.stringify(data, null, 2));
-                populateDeviceSeriesListWith(data); 
+                populateDeviceSeriesListWith(data);
                 $('#lst_device_series').change(); //update immediately after receiving JSON 
             }
         });
@@ -152,7 +168,7 @@
                 {
                     return e.vendor == vendor && e.series == series;
                 });
-                populateDevicesListWith(filteredData); 
+                populateDevicesListWith(filteredData);
                 $('#lst_devices').change(); //update immediately after receiving JSON 
             }
         });
@@ -211,5 +227,14 @@
         }
         console.log(serviceProtocols);
         return serviceProtocols;
+    }
+
+    function populateServicesList(data)
+    {
+        $('#lst_services').empty();
+        $.each(data, function(key, service)
+        {
+            $('#lst_services').append('<option value="' + service.id + '">' + service.name + '</option>');
+        });
     }
 })();
