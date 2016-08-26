@@ -13,6 +13,28 @@ block scripts
 block content
 	h1= title
 	div.row
+		section#sctn_vendors.col-md-4
+			p Vendors:
+			select#lst_vendors(multiple)
+				option(value=null) Loading vendors...
+			div#div_new_vendor
+				input#txt_new_vendor
+				button#btn_add_vendor Add
+		section#sctn_device_series.col-md-4
+			p Device series:
+			select#lst_device_series(multiple)
+				option(value=null) Select a vendor first
+			div#div_new_device_series.hidden
+				input#txt_new_device_series
+				button#btn_add_device_series Add
+		section#sctn_devices.col-md-4
+			p Devices:
+			select#lst_devices(multiple)
+				option(value=null) Select a device series first
+			div#div_new_device.hidden
+				input#txt_new_device
+				button#btn_add_device Add
+	div.row
 		section#sctn_device_types.col-md-2
 			p Device types:
 			select#lst_device_types(multiple)
@@ -20,24 +42,10 @@ block content
 			div#div_new_device_type
 				input#txt_new_device_type
 				button#btn_add_device_type Add
-		section#sctn_vendors.col-md-2
-			p Vendors:
-			select#lst_vendors(multiple)
-				option(value=null) Loading vendors...
-			div#div_new_vendor
-				input#txt_new_vendor
-				button#btn_add_vendor Add
-		section#sctn_device_series.col-md-2
-			p Device series:
-			select#lst_device_series(multiple)
-				option(value=null) Select a vendor first
-			div#div_new_device_series.hidden
-				input#txt_new_device_series
-				button#btn_add_device_series Add
-		section#sctn_devices.col-md-2
-			p Devices:
-			select#lst_devices(multiple)
-				option(value=null) Select a device series first
-			div#div_new_device.hidden
-				input#txt_new_device
-				button#btn_add_device Add
+		section#sctn_services.col-md-2
+			p Services:
+			select#lst_services(multiple)
+				option(value=null) Loading Services...
+			div#div_new_service
+				input#txt_new_service
+				button#btn_add_service Add
