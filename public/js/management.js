@@ -10,11 +10,13 @@
         'deviceSeries': apiUrl + '/device-series/',
         'services': apiUrl + '/services/',
         'protocols': apiUrl + '/protocols/',
-        'warnings': apiUrl + '/warnings/'
+        'warnings': apiUrl + '/warnings/',
+        'recommendations': apiUrl + '/recommendations/'
     };
     var currentDevice = {};
     var configuredDevices = [];
     var warnings;
+    var recommendations;
     console.log('ics-checklist.js loaded');
     if (typeof jQuery == 'undefined')
     {
@@ -33,6 +35,7 @@
         loadServices();
         loadProtocols();
         loadWarnings();
+        loadRecommendations();
         bindListEventHandlers();
     }
 
@@ -113,6 +116,22 @@
         });
     }
 
+    function loadRecommendations()
+    {
+        $.ajax(
+        {
+            dataType: 'json',
+            url: urls.recommendations,
+            success: function(data)
+            {
+                console.log('Got JSON!');
+                console.log(JSON.stringify(data, null, 2));
+                recommendations = data;
+                populateRecommendationsList(data);
+            }
+        });
+    }
+
     function populateDeviceTypeList(data)
     {
         $('#lst_device_types').empty();
@@ -150,9 +169,9 @@
             var name = $(this).children('option').filter(':selected').text();
             var id = this.value;
             var description = warnings.filter(function(e)
-                {
-                    return e.id == id;
-                })[0].description;
+            {
+                return e.id == id;
+            })[0].description;
             console.log(description);
             $('#txt_new_warning_name').val(name);
             $('#txt_new_warning_description').val(description);
@@ -297,6 +316,15 @@
         $.each(data, function(key, warning)
         {
             $('#lst_warnings').append('<option value="' + warning.id + '">' + warning.name + '</option>');
+        });
+    }
+
+    function populateRecommendationsList(data)
+    {
+        $('#lst_recommendations').empty();
+        $.each(data, function(key, recommendation)
+        {
+            $('#lst_recommendations').append('<option value="' + recommendation.id + '">' + recommendation.name + '</option>');
         });
     }
 })();
