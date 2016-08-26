@@ -68,3 +68,15 @@ block content
 			label(for='#txt_new_warning_description') Description:
 			textarea#txt_new_warning_description		
 			button#btn_add_save_warning Add/Save
+	div.row
+		section#sctn_recommendations.col-md-2
+			p Recommendations:
+			select#lst_recommendations(multiple)
+				option(value=null) Loading recommendations...
+		section#sctn_new_recommendations.col-md-2
+			label(for='#txt_new_recommendation_name') Name:
+			input#txt_new_recommendation_name
+			br
+			label(for='#txt_new_recommendation_description') Description:
+			textarea#txt_new_recommendation_description		
+			button#btn_add_save_recommendation Add/Save
