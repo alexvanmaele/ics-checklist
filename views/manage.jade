@@ -20,6 +20,7 @@ block content
 			div#div_new_vendor
 				input#txt_new_vendor
 				button#btn_add_vendor Add
+				button#btn_remove_vendor Remove
 		section#sctn_device_series.col-md-4
 			p Device series:
 			select#lst_device_series(multiple)
@@ -27,6 +28,7 @@ block content
 			div#div_new_device_series.hidden
 				input#txt_new_device_series
 				button#btn_add_device_series Add
+				button#btn_remove_device_series Remove
 		section#sctn_devices.col-md-4
 			p Devices:
 			select#lst_devices(multiple)
@@ -34,6 +36,7 @@ block content
 			div#div_new_device.hidden
 				input#txt_new_device
 				button#btn_add_device Add
+				button#btn_remove_device Remove
 	div.row
 		section#sctn_device_types.col-md-2
 			p Device types:
@@ -42,6 +45,7 @@ block content
 			div#div_new_device_type
 				input#txt_new_device_type
 				button#btn_add_device_type Add
+				button#btn_remove_device_type Remove
 		section#sctn_services.col-md-2
 			p Services:
 			select#lst_services(multiple)
@@ -49,6 +53,7 @@ block content
 			div#div_new_service
 				input#txt_new_service
 				button#btn_add_service Add
+				button#btn_remove_service Remove
 		section#sctn_protocols.col-md-2
 			p Protocols:
 			select#lst_protocols(multiple)
@@ -56,6 +61,7 @@ block content
 			div#div_new_protocol
 				input#txt_new_protocol
 				button#btn_add_protocol Add
+				button#btn_remove_protocol Remove
 	div.row
 		section#sctn_warnings.col-md-2
 			p Warnings:
@@ -68,6 +74,7 @@ block content
 			label(for='#txt_new_warning_description') Description:
 			textarea#txt_new_warning_description		
 			button#btn_add_save_warning Add/Save
+			button#btn_remove_warning Remove
 	div.row
 		section#sctn_recommendations.col-md-2
 			p Recommendations:
@@ -80,3 +87,4 @@ block content
 			label(for='#txt_new_recommendation_description') Description:
 			textarea#txt_new_recommendation_description		
 			button#btn_add_save_recommendation Add/Save
+			button#btn_remove_recommendation Remove
