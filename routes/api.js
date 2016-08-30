@@ -215,6 +215,31 @@ router.get('/services/:deviceId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.deviceId], res);
 });
+router.get('/services/delete/:serviceId', function(req, res, next)
+{
+    var query = `
+        delete from services
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.serviceId], res);
+});
+router.post('/services/add/', function(req, res, next)
+{
+    var query = `
+        insert into services (name)
+        values (?)
+    `;
+    try
+    {
+        sendQueryResults(query, req.body.name, res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get protocols
 router.get('/protocols', function(req, res, next)
 {
