@@ -98,7 +98,11 @@ router.get('/device-series/:vendorId', function(req, res, next)
 });
 router.get('/device-series/delete/:seriesId', function(req, res, next)
 {
+<<<<<<< HEAD
         var query = `
+=======
+    var query = `
+>>>>>>> c9e65c07c5e5dcaf805d83ed4aceaf35136e74be
         delete from series
         where id = ?
     `;
