@@ -313,6 +313,31 @@ router.get('/warnings/:protocolId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.protocolId], res);
 });
+router.get('/warnings/delete/:warningId', function(req, res, next)
+{
+    var query = `
+        delete from warnings
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.warningId], res);
+});
+router.post('/warnings/add/', function(req, res, next)
+{
+    var query = `
+        insert into warnings (name, description)
+        values (?, ?)
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.name, req.body.description], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get recommendations
 router.get('/recommendations', function(req, res, next)
 {
