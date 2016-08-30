@@ -45,6 +45,31 @@ router.get('/device-types', function(req, res, next)
 {
     sendQueryResults('SELECT * from types ORDER BY id', null, res);
 });
+router.get('/device-types/delete/:typeId', function(req, res, next)
+{
+    var query = `
+        delete from types
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.typeId], res);
+});
+router.post('/device-types/add/', function(req, res, next)
+{
+    var query = `
+        insert into types (name)
+        values (?)
+    `;
+    try
+    {
+        sendQueryResults(query, req.body.name, res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get vendors
 router.get('/vendors', function(req, res, next)
 {
