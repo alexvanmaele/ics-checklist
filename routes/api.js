@@ -69,6 +69,23 @@ router.get('/vendors/delete/:vendorId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.vendorId], res);
 });
+router.post('/vendors/add/', function(req, res, next)
+{
+    var query = `
+        insert into vendors (name)
+        values (?)
+    `;
+    try
+    {
+        sendQueryResults(query, req.body.name, res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get device series per vendor
 router.get('/device-series/:vendorId', function(req, res, next)
 {
