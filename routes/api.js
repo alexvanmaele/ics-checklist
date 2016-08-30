@@ -398,6 +398,24 @@ router.post('/recommendations/add/', function(req, res, next)
         res.send('Error in POST body');
     }
 });
+router.post('/recommendations/modify/', function(req, res, next)
+{
+    var query = `
+        update recommendations
+        set name = ?, description = ?
+        where id = ?
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.name, req.body.description, req.body.id], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get warnings and recommendations for list of protocols
 router.post('/warning-recommendations/', function(req, res, next)
 {
