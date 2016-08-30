@@ -257,6 +257,31 @@ router.get('/protocols/:serviceId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.serviceId], res);
 });
+router.get('/protocols/delete/:protocolId', function(req, res, next)
+{
+    var query = `
+        delete from protocols
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.protocolId], res);
+});
+router.post('/protocols/add/', function(req, res, next)
+{
+    var query = `
+        insert into protocols (name)
+        values (?)
+    `;
+    try
+    {
+        sendQueryResults(query, req.body.name, res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get all services with protocols per device
 router.get('/service-protocols/:deviceId', function(req, res, next)
 {
