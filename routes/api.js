@@ -96,6 +96,31 @@ router.get('/device-series/:vendorId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.vendorId], res);
 });
+router.get('/device-series/delete/:seriesId', function(req, res, next)
+{
+    var query = `
+        delete from series
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.seriesId], res);
+});
+router.post('/device-series/add/', function(req, res, next)
+{
+    var query = `
+        insert into series (vendor, name)
+        values (?, ?)
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.vendor, req.body.name], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get devices
 router.get('/devices', function(req, res, next)
 {
