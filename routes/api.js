@@ -60,7 +60,7 @@ router.get('/vendors/:typeId', function(req, res, next)
         where devices.id in (select dt.device from device_types dt where dt.type = ?)
     `;
     sendQueryResults(query, [req.params.typeId], res);
-});
+}); 
 router.get('/vendors/delete/:vendorId', function(req, res, next)
 {
     var query = `
@@ -98,7 +98,7 @@ router.get('/device-series/:vendorId', function(req, res, next)
 });
 router.get('/device-series/delete/:seriesId', function(req, res, next)
 {
-    var query = `
+        var query = `
         delete from series
         where id = ?
     `;
@@ -147,6 +147,31 @@ router.get('/devices/:typeId', function(req, res, next)
         order by vendors.name
     `;
     sendQueryResults(query, [req.params.typeId], res);
+});
+router.get('/devices/delete/:deviceId', function(req, res, next)
+{
+        var query = `
+        delete from devices
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.deviceId], res);
+});
+router.post('/devices/add/', function(req, res, next)
+{
+    var query = `
+        insert into devices (vendor, series, name)
+        values (?, ?, ?)
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.vendor, req.body.series, req.body.name], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
 });
 // Get services
 router.get('/services', function(req, res, next)
