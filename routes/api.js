@@ -67,16 +67,7 @@ router.get('/vendors/delete/:vendorId', function(req, res, next)
         delete from vendors
         where id = ?
     `;
-    try
-    {
-        sendQueryResults(query, [req.params.vendorId], res);
-    }
-    catch (err)
-    {
-        console.log('Error parsing POST parameters:');
-        console.log(err);
-        res.send('Error in POST body');
-    }
+    sendQueryResults(query, [req.params.vendorId], res);
 });
 // Get device series per vendor
 router.get('/device-series/:vendorId', function(req, res, next)
