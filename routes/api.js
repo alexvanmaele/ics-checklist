@@ -355,6 +355,31 @@ router.get('/recommendations/:warningId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.warningId], res);
 });
+router.get('/recommendations/delete/:recommendationId', function(req, res, next)
+{
+    var query = `
+        delete from recommendations
+        where id = ?
+    `;
+    sendQueryResults(query, [req.params.recommendationId], res);
+});
+router.post('/recommendations/add/', function(req, res, next)
+{
+    var query = `
+        insert into recommendations (name, description)
+        values (?, ?)
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.name, req.body.description], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get warnings and recommendations for list of protocols
 router.post('/warning-recommendations/', function(req, res, next)
 {
