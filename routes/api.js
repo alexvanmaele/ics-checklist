@@ -61,6 +61,23 @@ router.get('/vendors/:typeId', function(req, res, next)
     `;
     sendQueryResults(query, [req.params.typeId], res);
 });
+router.get('/vendors/delete/:vendorId', function(req, res, next)
+{
+    var query = `
+        delete from vendors
+        where id = ?
+    `;
+    try
+    {
+        sendQueryResults(query, [req.params.vendorId], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get device series per vendor
 router.get('/device-series/:vendorId', function(req, res, next)
 {
