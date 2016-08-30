@@ -338,6 +338,24 @@ router.post('/warnings/add/', function(req, res, next)
         res.send('Error in POST body');
     }
 });
+router.post('/warnings/modify/', function(req, res, next)
+{
+    var query = `
+        update warnings
+        set name = ?, description = ?
+        where id = ?
+    `;
+    try
+    {
+        sendQueryResults(query, [req.body.name, req.body.description, req.body.id], res);
+    }
+    catch (err)
+    {
+        console.log('Error parsing POST parameters:');
+        console.log(err);
+        res.send('Error in POST body');
+    }
+});
 // Get recommendations
 router.get('/recommendations', function(req, res, next)
 {
